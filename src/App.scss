@@ -1,0 +1,12 @@
+$font-stack: Helvetica, sans-serif;
+$dark-blue: #072448;
+$light-blue: #54D2D2;
+$gold-yellow: #FFCB00;
+$bronze-orange: #F8AA4B;
+$off-red: #FF6150;
+
+div {
+  font: 100% $font-stack;
+  color: $dark-blue;
+  background-color: $gold-yellow;
+}

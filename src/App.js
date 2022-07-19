@@ -1,5 +1,5 @@
 
-import './App.css';
+import './App.scss';
 import {BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import StartScreen from './Pages/StartScreen';
 
@@ -35,6 +35,7 @@ function App() {
        <Route path ='/endscreen' element ={<EndScreen />} />
        <Route path ='*' element ={<ErrorPage />} />
      </Routes>
+     <div><h3>FOOTER</h3></div>
     </Router>
   )
 }
