@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 
 import axios from 'axios';
 
-function Quiz() {
+const Quiz = () => {
 
     const difficultyLevel = ['easy', 'medium', 'hard'];
 
