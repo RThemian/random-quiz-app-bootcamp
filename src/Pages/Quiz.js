@@ -13,7 +13,27 @@ const Quiz = () => {
     const [questions, setQuestions] = useState([
     ])
 
+    // function regexRemover find "&quot;" and replace with " " "
+    // find "&#039;" replace " ' "
+
+    const removeSpecChar = (props) => {
+
+       let result = props
+         .replace(/&quot;/g, "''")
+         .replace(/&#039;/g, "'")
+         .replace(/&shy;/g, "-")
+         .replace(/&amp;/g, "&")
+
+        return result;
+
+    }
+
     
+    const randArray = () => {
+
+    }
+
+
 
     const url = 'https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple'
 
@@ -22,7 +42,9 @@ const Quiz = () => {
     return axios.get(url)
         .then( (response) => {
     // handle success
-         console.log("questions?", response.data.results);
+        //response.json()
+        console.log("questions?", response.data.results);
+        
         setQuestions(response.data.results)
         })
         .catch((error) => {
@@ -45,16 +67,16 @@ const Quiz = () => {
     <div className='questions'>
         {questions[0] ? questions.map(question => (
         <ol key = {question.question}>
-            <h2>{question.question}</h2>
+            <h2>{removeSpecChar(question.question)}</h2>
             <button id = "btn" onClick ={(event) => 
           setOptionChosen("A")}> 
-          {question.incorrect_answers[0]}{" "} </button>
+          {removeSpecChar(question.incorrect_answers[0])}{" "} </button>
         <button id = "btn" onClick ={() => setOptionChosen("B")}> 
-          {question.incorrect_answers[1]}{" "} </button>
+          {removeSpecChar(question.incorrect_answers[1])}{" "} </button>
         <button id = "btn" onClick ={() => setOptionChosen("C")}> 
-          {question.incorrect_answers[2]}{" "} </button>
+          {removeSpecChar(question.incorrect_answers[2])}{" "} </button>
         <button id = "btn" onClick ={() => setOptionChosen("D")}> 
-          {question.correct_answer}{" "} </button>
+          {removeSpecChar(question.correct_answer)}{" "} </button>
         </ol>
         )) : "" }
 
