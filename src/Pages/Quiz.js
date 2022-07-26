@@ -70,11 +70,11 @@ const Quiz = () => {
             <h2>{removeSpecChar(question.question)}</h2>
             <button id = "btn" onClick ={(event) => 
           setOptionChosen("A")}> 
-          {removeSpecChar(question.incorrect_answers[0])}{" "} </button>
+          {removeSpecChar(question.incorrect_answers[0])}</button>{" "}
         <button id = "btn" onClick ={() => setOptionChosen("B")}> 
-          {removeSpecChar(question.incorrect_answers[1])}{" "} </button>
+          {removeSpecChar(question.incorrect_answers[1])}</button>{" "}
         <button id = "btn" onClick ={() => setOptionChosen("C")}> 
-          {removeSpecChar(question.incorrect_answers[2])}{" "} </button>
+          {removeSpecChar(question.incorrect_answers[2])}{" "} </button>{" "}
         <button id = "btn" onClick ={() => setOptionChosen("D")}> 
           {removeSpecChar(question.correct_answer)}{" "} </button>
         </ol>
