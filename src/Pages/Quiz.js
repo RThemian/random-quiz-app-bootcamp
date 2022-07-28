@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-
+import Question from "./Question";
 import axios from "axios";
 
 const Quiz = () => {
-  const difficultyLevel = ["easy", "medium", "hard"];
+  const difficultyLevels = [{value:"easy"}, {value:"medium"}, {value:"hard"}];
+  const [diffSelect, setDiffSelect] = useState("easy");
 
-  const [score, setScore] = useState(0);
+ // const [score, setScore] = useState(0);
 
   const [optionChosen, setOptionChosen] = useState("");
 
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState([{"category":"History","type":"multiple","difficulty":"hard","question":"PRACTICE: In the year 1900, what were the most popular first names given to boy and girl babies born in the United States?","correct_answer":"John and Mary","incorrect_answers":["Joseph and Catherine","William and Elizabeth","George and Anne"]}]);
 
   // function regexRemover find "&quot;" and replace with " " "
   // find "&#039;" replace " ' "
@@ -26,12 +27,13 @@ const Quiz = () => {
 
   const randArray = () => {};
 
-  const url =
-    "https://opentdb.com/api.php?amount=10&difficulty=easy&type=multiple";
-
-  const loadQuestions = () => {
+   
+  
+  const loadQuestions = (e) => {
+    e.preventDefault();
+    setDiffSelect(document.querySelector("#difficulty").value);
     return axios
-      .get(url)
+      .get(`https://opentdb.com/api.php?amount=10&difficulty=${diffSelect}&type=multiple`)
       .then((response) => {
         // handle success
         //response.json()
@@ -52,14 +54,36 @@ const Quiz = () => {
   return (
     <>
       <div className="container">
+        
         <h3>QUIZ</h3>
-        <button onClick={loadQuestions}>Load Questions? Easy level</button>
+        <div className="difficulty_container">
+          <p>Choose difficulty level</p>
+
+          <select  id="difficulty">
+            {difficultyLevels.map((level) => (
+              <option key = {Math.random()*difficultyLevels.length} value={level.value}>{level.value}</option>
+            ))}
+          </select>
+        </div>
+
+
+        <button onClick={loadQuestions}>Load Questions? </button>
       </div>
-      <div className="questions">
+      <div>
+          <Question 
+            questions = {questions}
+            removeSpecChar = {removeSpecChar}
+            diffSelect = {diffSelect}
+
+
+            />
+      </div>
+      {/* <div className="questions">
         {questions
           ? questions.map((question) => (
               <ol key={question.question}>
                 <h2>{removeSpecChar(question.question)}</h2>
+                <h3>Difficulty Level: {diffSelect.toUpperCase()}</h3>
                 <button id="btn" onClick={(event) => setOptionChosen("A")}>
                   {removeSpecChar(question.incorrect_answers[0])}
                 </button>{" "}
@@ -75,7 +99,7 @@ const Quiz = () => {
               </ol>
             ))
           : ""}
-      </div>
+      </div> */}
     </>
   );
 };
