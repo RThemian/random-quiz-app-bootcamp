@@ -15,15 +15,7 @@ const Quiz = () => {
   // function regexRemover find "&quot;" and replace with " " "
   // find "&#039;" replace " ' "
 
-  const removeSpecChar = (props) => {
-    let result = props
-      .replace(/&quot;/g, "''")
-      .replace(/&#039;/g, "'")
-      .replace(/&shy;/g, "-")
-      .replace(/&amp;/g, "&");
-
-    return result;
-  };
+  
 
   const randArray = () => {};
 
@@ -38,7 +30,7 @@ const Quiz = () => {
         // handle success
         //response.json()
         console.log("questions?", response.data.results);
-
+       
         setQuestions(response.data.results);
       })
       .catch((error) => {
@@ -72,7 +64,7 @@ const Quiz = () => {
       <div>
           <Question 
             questions = {questions}
-            removeSpecChar = {removeSpecChar}
+            
             diffSelect = {diffSelect}
 
 
