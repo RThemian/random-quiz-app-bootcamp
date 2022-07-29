@@ -39,17 +39,36 @@ const nextQuestion = () => {
     setCurrQuestion(currQuestion + 1);
 }
 
-const randArray = () => {
-    //fill array with possible answers
+
    
-    let answerArr = [questions[currQuestion].incorrect_answer[0], questions[currQuestion].incorrect_answer[1],
-        questions[currQuestion].incorrect_answer[2],
-        questions[currQuestion].correct_answer]
+    let answerArr = [questions[currQuestion].incorrect_answers[0], questions[currQuestion].incorrect_answers[1],
+        questions[currQuestion].incorrect_answers[2],
+        questions[currQuestion].correct_answer];
 
-    console.log("ANSWER CHOICES", answerArr)
-    return answerArr;
+
+
+console.log("Random ARRAY", answerArr )
+
+function RandomizeArray(arr1) {
+
+  let ctr = arr1.length, 
+  temp, 
+  index
+
+// While there are elements in the array
+    while (ctr > 0) {
+// Pick a random index
+        index = Math.floor(Math.random() * ctr);
+// Decrease ctr by 1
+        ctr--;
+// And swap the last element with it
+        temp = arr1[ctr];
+        arr1[ctr] = arr1[index];
+        arr1[index] = temp;
+    }
+  return arr1;
 }
-
+var myArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 
 
@@ -78,7 +97,9 @@ const randArray = () => {
                 <button onClick = {finishQuiz}>Finish Quiz</button> ) 
                 : ( <button onClick = {nextQuestion}>Next Question</button> ) }
                 </div>
-
+                    <div>
+                      <h3>This is the random array {answerArr.length > 0 ? RandomizeArray(answerArr).map((option) =>  <li>{option}</li>) : ""}</h3>
+                    </div>
 
         
       </div>
