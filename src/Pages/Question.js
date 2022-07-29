@@ -52,10 +52,11 @@ const nextQuestion = () => {
                   removeSpecChar(questions[currQuestion].incorrect_answers[2]),
                   removeSpecChar(questions[currQuestion].correct_answer)];
 
+console.log("this is the NON random array", answerArr)
 
 
 
-
+//take array of values and randomly change its indices
 
   function RandomizeArray(arr1) {
     //removeSpecChar(arr1);
@@ -77,11 +78,19 @@ const nextQuestion = () => {
     return arr1;
   }
 
+//fill a const variable by randomizing the answerArr
+//THIS IS WHERE I THINK THE PROBLEM IS
 
-const finalRandArr = RandomizeArray(answerArr);
 
 
 
+
+const finalRandArr = [...RandomizeArray(answerArr)];
+
+
+
+
+console.log("optionChosen", optionChosen)
 
 
   return (
@@ -91,7 +100,8 @@ const finalRandArr = RandomizeArray(answerArr);
                 <h2> {removeSpecChar(questions[currQuestion].question)}</h2>
                 <h3>Difficulty Level: {diffSelect.toUpperCase()}</h3>
                 <div className = "options">
-                <button id="btn" onClick ={() => setOptionChosen(finalRandArr[0])}>
+                <button id="btn" onClick ={() => {
+                  setOptionChosen(finalRandArr[0]) }}>
                   {finalRandArr[0]}
                 
                 </button>{" "}
