@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import './Question.css';
 
 const Question = ({
@@ -7,12 +7,16 @@ const Question = ({
    
 }) => {
 
-    const removeSpecChar = (props) => {
+    const removeSpecChar = ( props) => {
+ 
         let result = props
           .replace(/&quot;/g, "''")
           .replace(/&#039;/g, "'")
           .replace(/&shy;/g, "-")
-          .replace(/&amp;/g, "&");
+          .replace(/&amp;/g, "&")
+          .replace(/&Iacute;/g, "í")
+          .replace(/&uuml;/g, "ü");
+
     
         return result;
       };
@@ -40,35 +44,43 @@ const nextQuestion = () => {
 }
 
 
+
+// make answer array with three incorrects and last one correct
    
-    let answerArr = [questions[currQuestion].incorrect_answers[0], questions[currQuestion].incorrect_answers[1],
-        questions[currQuestion].incorrect_answers[2],
-        questions[currQuestion].correct_answer];
+ let answerArr = [removeSpecChar(questions[currQuestion].incorrect_answers[0]),
+                  removeSpecChar(questions[currQuestion].incorrect_answers[1]),
+                  removeSpecChar(questions[currQuestion].incorrect_answers[2]),
+                  removeSpecChar(questions[currQuestion].correct_answer)];
 
 
 
-console.log("Random ARRAY", answerArr )
 
-function RandomizeArray(arr1) {
 
-  let ctr = arr1.length, 
-  temp, 
-  index
 
-// While there are elements in the array
-    while (ctr > 0) {
-// Pick a random index
-        index = Math.floor(Math.random() * ctr);
-// Decrease ctr by 1
-        ctr--;
-// And swap the last element with it
-        temp = arr1[ctr];
-        arr1[ctr] = arr1[index];
-        arr1[index] = temp;
-    }
-  return arr1;
-}
-var myArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  function RandomizeArray(arr1) {
+    //removeSpecChar(arr1);
+    let ctr = arr1.length, 
+    temp, 
+    index
+  
+  // While there are elements in the array
+      while (ctr > 0) {
+  // Pick a random index
+          index = Math.floor(Math.random() * ctr);
+  // Decrease ctr by 1
+          ctr--;
+  // And swap the last element with it
+          temp = arr1[ctr];
+          arr1[ctr] = arr1[index];
+          arr1[index] = temp;
+      }
+    return arr1;
+  }
+
+
+const finalRandArr = RandomizeArray(answerArr);
+
+
 
 
 
@@ -79,18 +91,18 @@ var myArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
                 <h2> {removeSpecChar(questions[currQuestion].question)}</h2>
                 <h3>Difficulty Level: {diffSelect.toUpperCase()}</h3>
                 <div className = "options">
-                <button id="btn" onClick={(event) => setOptionChosen("A")}>
-                  {removeSpecChar(questions[currQuestion].incorrect_answers[0])}
-                {}
+                <button id="btn" onClick ={() => setOptionChosen(finalRandArr[0])}>
+                  {finalRandArr[0]}
+                
                 </button>{" "}
-                <button id="btn" onClick={() => setOptionChosen("B")}>
-                  {removeSpecChar(questions[currQuestion].incorrect_answers[1])}
+                <button id="btn" onClick={() => setOptionChosen(finalRandArr[1])}>
+                  {finalRandArr[1]}
                 </button>{" "}
-                <button id="btn" onClick={() => setOptionChosen("C")}>
-                  {removeSpecChar(questions[currQuestion].incorrect_answers[2])}{" "}
+                <button id="btn" onClick={() => setOptionChosen(finalRandArr[2])}>
+                  {finalRandArr[2]}{" "}
                 </button>{" "}
-                <button id="btn" onClick={() => setOptionChosen("D")}>
-                  {removeSpecChar(questions[currQuestion].correct_answer)}{" "}
+                <button id="btn" onClick={() => setOptionChosen(finalRandArr[3])}>
+                  {finalRandArr[3]}{" "}
                 </button>
 
                 {currQuestion === questions.length - 1 ? (
