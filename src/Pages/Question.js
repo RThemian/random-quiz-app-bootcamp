@@ -41,42 +41,58 @@ const nextQuestion = () => {
 
 
     setCurrQuestion(currQuestion + 1);
+    //setAnswerArr([removeSpecChar(questions[currQuestion+1].incorrect_answers[0]), removeSpecChar(questions[currQuestion+1].incorrect_answers[1]), removeSpecChar(questions[currQuestion+1].incorrect_answers[2]), removeSpecChar(questions[currQuestion+1].correct_answer)]);
+   // setFinalRandArr([...RandomizeArray(answerArr)])
 }
+
+const previousQuestion = () => {
+  setCurrQuestion(currQuestion - 1)
+
+}
+useEffect(() => {
+  setAnswerArr([removeSpecChar(questions[currQuestion].incorrect_answers[0]), removeSpecChar(questions[currQuestion].incorrect_answers[1]), removeSpecChar(questions[currQuestion].incorrect_answers[2]), removeSpecChar(questions[currQuestion].correct_answer)]);
+  setFinalRandArr([...RandomizeArray(answerArr)])
+}, [currQuestion, questions, ])
+
 
 
 
 // make answer array with three incorrects and last one correct
-   
- let answerArr = [removeSpecChar(questions[currQuestion].incorrect_answers[0]),
-                  removeSpecChar(questions[currQuestion].incorrect_answers[1]),
-                  removeSpecChar(questions[currQuestion].incorrect_answers[2]),
-                  removeSpecChar(questions[currQuestion].correct_answer)];
+   const [answerArr, setAnswerArr] = useState([removeSpecChar(questions[currQuestion].incorrect_answers[0]), removeSpecChar(questions[currQuestion].incorrect_answers[1]), removeSpecChar(questions[currQuestion].incorrect_answers[2]), removeSpecChar(questions[currQuestion].correct_answer)]);
+ 
+  //  let answerArr = [removeSpecChar(questions[currQuestion].incorrect_answers[0]), removeSpecChar(questions[currQuestion].incorrect_answers[1]), removeSpecChar(questions[currQuestion].incorrect_answers[2]), removeSpecChar(questions[currQuestion].correct_answer)];
 
 console.log("this is the NON random array", answerArr)
 
 
 
 //take array of values and randomly change its indices
-
-  function RandomizeArray(arr1) {
-    //removeSpecChar(arr1);
-    let ctr = arr1.length, 
-    temp, 
-    index
   
-  // While there are elements in the array
-      while (ctr > 0) {
-  // Pick a random index
-          index = Math.floor(Math.random() * ctr);
-  // Decrease ctr by 1
-          ctr--;
-  // And swap the last element with it
-          temp = arr1[ctr];
-          arr1[ctr] = arr1[index];
-          arr1[index] = temp;
-      }
-    return arr1;
-  }
+    const RandomizeArray = ( arr1) => {
+      
+      let ctr = arr1.length, 
+      temp, 
+      index
+    
+    // While there are elements in the array
+        while (ctr > 0) {
+    // Pick a random index
+            index = Math.floor(Math.random() * ctr);
+    // Decrease ctr by 1
+            ctr--;
+    // And swap the last element with it
+            temp = arr1[ctr];
+            arr1[ctr] = arr1[index];
+            arr1[index] = temp;
+        }
+ 
+      return arr1;
+    
+    }
+    const [finalRandArr, setFinalRandArr] = useState([...RandomizeArray(answerArr)])
+
+
+
 
 //fill a const variable by randomizing the answerArr
 //THIS IS WHERE I THINK THE PROBLEM IS
@@ -85,7 +101,9 @@ console.log("this is the NON random array", answerArr)
 
 
 
-const finalRandArr = [...RandomizeArray(answerArr)];
+
+
+
 
 
 
@@ -100,12 +118,12 @@ console.log("optionChosen", optionChosen)
                 <h2> {removeSpecChar(questions[currQuestion].question)}</h2>
                 <h3>Difficulty Level: {diffSelect.toUpperCase()}</h3>
                 <div className = "options">
-                <button id="btn" onClick ={() => {
-                  setOptionChosen(finalRandArr[0]) }}>
+                <button id="btn" onClick ={() => setOptionChosen(finalRandArr[0])} >
                   {finalRandArr[0]}
-                
                 </button>{" "}
-                <button id="btn" onClick={() => setOptionChosen(finalRandArr[1])}>
+                <button id="btn" onClick={() => {
+                  setOptionChosen(finalRandArr[1]);
+                }}>
                   {finalRandArr[1]}
                 </button>{" "}
                 <button id="btn" onClick={() => setOptionChosen(finalRandArr[2])}>
@@ -118,6 +136,9 @@ console.log("optionChosen", optionChosen)
                 {currQuestion === questions.length - 1 ? (
                 <button onClick = {finishQuiz}>Finish Quiz</button> ) 
                 : ( <button onClick = {nextQuestion}>Next Question</button> ) }
+                {currQuestion > 0 ? (<button onClick = {previousQuestion} >Previous Question</button>) : ""}
+
+
                 </div>
                     <div>
                       <h3>This is the random array {answerArr.length > 0 ? RandomizeArray(answerArr).map((option) =>  <li>{option}</li>) : ""}</h3>
