@@ -17,7 +17,9 @@ const Question = ({
           .replace(/&amp;/g, "&")
           .replace(/&Iacute;/g, "í")
           .replace(/&uuml;/g, "ü")
-          .replace(/&rsquo;/g, "’");
+          .replace(/&rsquo;/g, "’")
+          .replace(/&eacute;/g, "é")
+          .replace(/&Uuml;/g, "Ü")
 
     
         return result;
@@ -43,8 +45,8 @@ const nextQuestion = () => {
 
 
     setCurrQuestion(currQuestion => currQuestion + 1);
-    //setAnswerArr([removeSpecChar(questions[currQuestion+1].incorrect_answers[0]), removeSpecChar(questions[currQuestion+1].incorrect_answers[1]), removeSpecChar(questions[currQuestion+1].incorrect_answers[2]), removeSpecChar(questions[currQuestion+1].correct_answer)]);
-   // setFinalRandArr([...RandomizeArray(answerArr)])
+    setAnswerArr([removeSpecChar(questions[currQuestion].incorrect_answers[0]), removeSpecChar(questions[currQuestion].incorrect_answers[1]), removeSpecChar(questions[currQuestion].incorrect_answers[2]), removeSpecChar(questions[currQuestion].correct_answer)]);
+   setFinalRandArr([...RandomizeArray(answerArr)])
 }
 
 const previousQuestion = () => {
@@ -52,24 +54,17 @@ const previousQuestion = () => {
 
 }
 
+const [answerArr, setAnswerArr] = useState([removeSpecChar(questions[currQuestion].incorrect_answers[0]), removeSpecChar(questions[currQuestion].incorrect_answers[1]), removeSpecChar(questions[currQuestion].incorrect_answers[2]), removeSpecChar(questions[currQuestion].correct_answer)]);
 
-
-useEffect(() => {
-  
-  setAnswerArr([removeSpecChar(questions[currQuestion].incorrect_answers[0]), removeSpecChar(questions[currQuestion].incorrect_answers[1]), removeSpecChar(questions[currQuestion].incorrect_answers[2]), removeSpecChar(questions[currQuestion].correct_answer)]);
-
-  console.log("USEEFFECT is working", answerArr)
-
-  setFinalRandArr([...RandomizeArray(answerArr)])
-}, [currQuestion, answerArr])
+ 
 
 
 
 
 // make answer array with three incorrects and last one correct
-  // const [answerArr, setAnswerArr] = useState(questions);
+   
  
-    let answerArr = [removeSpecChar(questions[currQuestion].incorrect_answers[0]), removeSpecChar(questions[currQuestion].incorrect_answers[1]), removeSpecChar(questions[currQuestion].incorrect_answers[2]), removeSpecChar(questions[currQuestion].correct_answer)];
+  //  let answerArr = [removeSpecChar(questions[currQuestion].incorrect_answers[0]), removeSpecChar(questions[currQuestion].incorrect_answers[1]), removeSpecChar(questions[currQuestion].incorrect_answers[2]), removeSpecChar(questions[currQuestion].correct_answer)];
 
 console.log("this is the NON random array", answerArr)
 
@@ -101,7 +96,7 @@ console.log("this is the NON random array", answerArr)
     const [finalRandArr, setFinalRandArr] = useState([...RandomizeArray(answerArr)])
 
 
-    
+  //  let finalRandArr = RandomizeArray(answerArr)
 
 //fill a const variable by randomizing the answerArr
 //THIS IS WHERE I THINK THE PROBLEM IS
@@ -149,7 +144,13 @@ console.log("optionChosen", optionChosen)
                 : ( <button onClick = {nextQuestion}>Next Question</button> ) }
                 {currQuestion > 0 ? (<button onClick = {previousQuestion} >Previous Question</button>) : ""}
 
+                <div>
+                  
+                  {answerArr.length > 0 ? RandomizeArray(answerArr).map((option) =>  <input type = 'radio' name = {option} id = {option} value = {option} />) : ""}
+                 
+                </div>
 
+                
                 </div>
                     <div>
                       <h3>This is the random array {answerArr.length > 0 ? RandomizeArray(answerArr).map((option) =>  <li>{option}</li>) : ""}</h3>
