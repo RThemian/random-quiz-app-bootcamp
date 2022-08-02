@@ -19,7 +19,7 @@ const Quiz = () => {
 
   const randArray = () => {};
 
-   
+  const [answerArr, setAnswerArr] = useState();
   
   const loadQuestions = (e) => {
     e.preventDefault();
@@ -32,6 +32,7 @@ const Quiz = () => {
         console.log("questions?", response.data.results);
        
         setQuestions(response.data.results);
+        setAnswerArr([(questions[0].incorrect_answers[0]), (questions[0].incorrect_answers[1]), (questions[0].incorrect_answers[2]), (questions[0].correct_answer)])
       })
       .catch((error) => {
         // handle error
@@ -65,7 +66,13 @@ const Quiz = () => {
           <Question 
             questions = {questions}
             
-            diffSelect = {diffSelect}
+            answerArr = {answerArr}
+
+            setAnswerArr = {setAnswerArr}
+
+            
+
+            
 
 
             />
