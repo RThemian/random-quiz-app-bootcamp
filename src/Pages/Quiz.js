@@ -2,37 +2,57 @@ import React, { useState } from "react";
 import Question from "./Question";
 import axios from "axios";
 
+function randomizeArray(array) {
+  let currentIndex = array.length,
+    randomIndex;
+  // While there remain elements to shuffle.
+  while (currentIndex !== 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex]
+    ];
+  }
+  return array;
+}
+
 const Quiz = () => {
-  const difficultyLevels = [{value:"easy"}, {value:"medium"}, {value:"hard"}];
+  const difficultyLevels = [
+    { value: "easy" },
+    { value: "medium" },
+    { value: "hard" }
+  ];
   const [diffSelect, setDiffSelect] = useState("easy");
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [questions, setQuestions] = useState([]);
+  const [score, setScore] = useState(0);
 
- // const [score, setScore] = useState(0);
-
-  const [optionChosen, setOptionChosen] = useState("");
-
-  const [questions, setQuestions] = useState([{"category":"History","type":"multiple","difficulty":"hard","question":"PRACTICE: In the year 1900, what were the most popular first names given to boy and girl babies born in the United States?","correct_answer":"John and Mary","incorrect_answers":["Joseph and Catherine","William and Elizabeth","George and Anne"]}]);
-
-  // function regexRemover find "&quot;" and replace with " " "
-  // find "&#039;" replace " ' "
-
-  
-
-
-
-  
-  
   const loadQuestions = (e) => {
     e.preventDefault();
     setDiffSelect(document.querySelector("#difficulty").value);
     return axios
-      .get(`https://opentdb.com/api.php?amount=10&difficulty=${diffSelect}&type=multiple`)
+      .get(
+        `https://opentdb.com/api.php?amount=10&difficulty=${diffSelect}&type=multiple`
+      )
       .then((response) => {
         // handle success
         //response.json()
+
         console.log("questions?", response.data.results);
-       
-        setQuestions(response.data.results);
-        
+        const questions = response.data.results.map((q) => {
+          return {
+            // add "selectedAnswer" prop to each question
+            selectedAnswer: null,
+            // add "answers" prop to randomize answers up front
+            answers: randomizeArray([...q.incorrect_answers, q.correct_answer]),
+            // copy rest of object
+            ...q
+          };
+        });
+        setQuestions(questions);
       })
       .catch((error) => {
         // handle error
@@ -41,63 +61,132 @@ const Quiz = () => {
       .then(() => {
         // always executed
         console.log("axios executed!");
+        // If a user clicks "Load Questions" while in the middle of
+        // an existing quiz, we start them back at 0 with the new
+        // questions.
+        setCurrentQuestionIndex(0);
       });
+  };
+
+  //
+  const handleNextQuestion = () => {
+    //add if correct else return
+    if (
+      questions[currentQuestionIndex].selectedAnswer ===
+      questions[currentQuestionIndex].correct_answer
+    ) {
+      alert("Correct!");
+      //ensures it always passes "score => score + 1"
+      setScore((score) => score + 1);
+      setCurrentQuestionIndex((previousIndex) => {
+        if (previousIndex < questions.length) {
+          return previousIndex + 1;
+        }
+      });
+    } else {
+      alert("Wrong");
+      return;
+    }
+  };
+
+  const handlePreviousQuestion = () => {
+    setCurrentQuestionIndex((previousIndex) => {
+      if (previousIndex > 0) {
+        return previousIndex - 1;
+      }
+    });
+  };
+  //implement specCharRemover at Quiz level
+  //questions[currentQuestionIndex].selectedAnswer send this nextQuestion component
+
+  const setSelectedAnswerForQuestion = (chosenAnswer) => {
+    const questionsCopy = [...questions];
+    const currentSelectedAnswer =
+      questionsCopy[currentQuestionIndex].selectedAnswer;
+    // this allows to deselect an already selected
+    // answer so that nothing is selected.
+    if (currentSelectedAnswer === chosenAnswer) {
+      questionsCopy[currentQuestionIndex].selectedAnswer = null;
+    } else {
+      questionsCopy[currentQuestionIndex].selectedAnswer = chosenAnswer;
+    }
+    setQuestions(questionsCopy);
   };
 
   return (
     <>
       <div className="container">
-        
         <h3>QUIZ</h3>
         <div className="difficulty_container">
           <p>Choose difficulty level</p>
-
-          <select  id="difficulty">
+          <select id="difficulty">
             {difficultyLevels.map((level) => (
-              <option key = {Math.random()*difficultyLevels.length} value={level.value}>{level.value}</option>
+              <option
+                key={Math.random() * difficultyLevels.length}
+                value={level.value}
+              >
+                {level.value}
+              </option>
             ))}
           </select>
         </div>
-
-
         <button onClick={loadQuestions}>Load Questions? </button>
       </div>
       <div>
-          <Question 
-            questions = {questions}
-            
-            
-            
-
-            
-
-            
-
-
-            />
+        {questions[currentQuestionIndex] !== undefined && (
+          <Question
+            question={questions[currentQuestionIndex].question}
+            answers={questions[currentQuestionIndex].answers}
+            selectedAnswer={questions[currentQuestionIndex].selectedAnswer}
+            onSelectAnswer={setSelectedAnswerForQuestion}
+          />
+        )}
       </div>
-      {/* <div className="questions">
-        {questions
-          ? questions.map((question) => (
-              <ol key={question.question}>
-                <h2>{removeSpecChar(question.question)}</h2>
-                <h3>Difficulty Level: {diffSelect.toUpperCase()}</h3>
-                <button id="btn" onClick={(event) => setOptionChosen("A")}>
-                  {removeSpecChar(question.incorrect_answers[0])}
-                </button>{" "}
-                <button id="btn" onClick={() => setOptionChosen("B")}>
-                  {removeSpecChar(question.incorrect_answers[1])}
-                </button>{" "}
-                <button id="btn" onClick={() => setOptionChosen("C")}>
-                  {removeSpecChar(question.incorrect_answers[2])}{" "}
-                </button>{" "}
-                <button id="btn" onClick={() => setOptionChosen("D")}>
-                  {removeSpecChar(question.correct_answer)}{" "}
-                </button>
-              </ol>
-            ))
-          : ""}
-      </div> */}
+      {/*
+        PREVIOUS QUESTION, NEXT QUESTION, and FINISH QUIZ buttons
+      */}
+      <div>
+        {/* previous question button */}
+        <button
+          disabled={questions.length === 0 || currentQuestionIndex === 0}
+          onClick={handlePreviousQuestion}
+        >
+          Previous Question
+        </button>
+        {/* next question button */}
+        <button
+          disabled={
+            // must select an answer to continue
+            (questions[currentQuestionIndex] &&
+              questions[currentQuestionIndex].selectedAnswer === null) ||
+            // if there are no questions
+            questions.length === 0 ||
+            // if we are at the last question
+            currentQuestionIndex + 1 === questions.length
+          }
+          onClick={handleNextQuestion}
+        >
+          Next Question
+        </button>
+        {/* TODO: finish quiz button */}
+        <button
+          disabled={
+            // only show finish button if we are on last question
+            currentQuestionIndex + 1 !== questions.length ||
+            // and the user has selected an answer for that last question
+            (questions[currentQuestionIndex] &&
+              questions[currentQuestionIndex].selectedAnswer === null)
+          }
+        >
+          Finish Quiz
+        </button>
+        {questions.length > 0 && (
+          <h5>
+            Question {currentQuestionIndex + 1} / {questions.length}
+          </h5>
+        )}
+        <h5>Score {score}</h5>
+      </div>
     </>
   );
 };

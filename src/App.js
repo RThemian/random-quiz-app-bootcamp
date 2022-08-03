@@ -19,9 +19,7 @@ function App() {
         <div>
         <Link to= '/'>Home</Link>
         </div>
-        <div>
-        <Link to='/quiz'>Quiz</Link>
-        </div>
+        
         <div>
         <Link to='/endscreen'>EndScreen</Link>
         </div>
