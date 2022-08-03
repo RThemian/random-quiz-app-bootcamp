@@ -32,7 +32,7 @@ const Quiz = () => {
         console.log("questions?", response.data.results);
        
         setQuestions(response.data.results);
-       
+        
       })
       .catch((error) => {
         // handle error
@@ -65,6 +65,7 @@ const Quiz = () => {
       <div>
           <Question 
             questions = {questions}
+            
             
             
 

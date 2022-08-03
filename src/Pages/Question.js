@@ -45,8 +45,7 @@ const nextQuestion = () => {
 
 
     setCurrQuestion(currQuestion => currQuestion + 1);
-    setAnswerArr([removeSpecChar(questions[currQuestion].incorrect_answers[0]), removeSpecChar(questions[currQuestion].incorrect_answers[1]), removeSpecChar(questions[currQuestion].incorrect_answers[2]), removeSpecChar(questions[currQuestion].correct_answer)]);
-   setFinalRandArr([...RandomizeArray(answerArr)])
+    
 }
 
 const previousQuestion = () => {
@@ -68,7 +67,7 @@ const [answerArr, setAnswerArr] = useState([removeSpecChar(questions[currQuestio
 
 console.log("this is the NON random array", answerArr)
 
-
+console.log("CURRENT QUESTION", questions[currQuestion], answerArr[currQuestion])
 
 //take array of values and randomly change its indices
   
@@ -95,6 +94,14 @@ console.log("this is the NON random array", answerArr)
     }
     const [finalRandArr, setFinalRandArr] = useState([...RandomizeArray(answerArr)])
 
+    useEffect(() => {
+      console.log("QUESTIONS array has changed", questions)
+      let answerArr = [removeSpecChar(questions[currQuestion].incorrect_answers[0]), removeSpecChar(questions[currQuestion].incorrect_answers[1]), removeSpecChar(questions[currQuestion].incorrect_answers[2]), removeSpecChar(questions[currQuestion].correct_answer)]
+      console.log("this is the AnswerArray", answerArr)
+
+      let finalRandArr = [...RandomizeArray(answerArr)]
+
+    }, [questions, currQuestion])
 
   //  let finalRandArr = RandomizeArray(answerArr)
 
@@ -144,11 +151,7 @@ console.log("optionChosen", optionChosen)
                 : ( <button onClick = {nextQuestion}>Next Question</button> ) }
                 {currQuestion > 0 ? (<button onClick = {previousQuestion} >Previous Question</button>) : ""}
 
-                <div>
-                  
-                  {answerArr.length > 0 ? RandomizeArray(answerArr).map((option) =>  <input type = 'radio' name = {option} id = {option} value = {option} />) : ""}
-                 
-                </div>
+     
 
                 
                 </div>
