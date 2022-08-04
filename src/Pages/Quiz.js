@@ -2,7 +2,7 @@ import React, { useState} from "react";
 import Question from "./Question";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import EndScreen from "./EndScreen";
+
 
 //put the randomizeArray function outside of the main component to controll its use
 

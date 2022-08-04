@@ -6,7 +6,6 @@ import React, {useState} from 'react';
 import Quiz from './Pages/Quiz';
 import EndScreen from './Pages/EndScreen';
 import ErrorPage from './Pages/ErrorPage';
-import { QuizContext } from './Pages/Contexts';
 
 
 
