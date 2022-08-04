@@ -49,3 +49,8 @@ button:focus {
   flex-direction: column;
   align-items: center;
 }
+
+.answers {
+  position: relative;
+  font-size: 25px;
+}

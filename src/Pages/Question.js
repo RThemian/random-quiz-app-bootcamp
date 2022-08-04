@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import "./Question.css";
 
 const Question = ({
+  difficultyLevel,
   question,
   answers = [],
   selectedAnswer = "",
@@ -28,13 +29,15 @@ const Question = ({
     <div>
       {question && (
         <>
+        
           <h1>{removeSpecChar(question)}</h1>
+          <h5>Difficulty Level {difficultyLevel}</h5>
           {answers &&
             answers.length &&
             answers.map((answer) => {
               return (
                 <>
-                  <button
+                  <button className="answers"
                     style={{
                       backgroundColor: selectedAnswer === answer ? "magenta" : ""
                     }}
@@ -43,9 +46,11 @@ const Question = ({
                     {removeSpecChar(answer)}
                   </button>
                   <br />
+                  <br />
                 </>
               );
             })}
+           
         </>
       )}
     </div>

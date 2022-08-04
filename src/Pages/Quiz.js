@@ -115,6 +115,9 @@ const Quiz = ({
       //ensures it always passes "score => score + 1"
       setScore((score) => score + 1);
     }
+    else {
+      alert("Wrong!!")
+    }
       let path = '/endscreen';
       navigate(path);
 
@@ -171,6 +174,7 @@ const Quiz = ({
       <div>
         {questions[currentQuestionIndex] !== undefined && (
           <Question
+            difficultyLevel = {diffSelect}
             question={questions[currentQuestionIndex].question}
             answers={questions[currentQuestionIndex].answers}
             selectedAnswer={questions[currentQuestionIndex].selectedAnswer}
