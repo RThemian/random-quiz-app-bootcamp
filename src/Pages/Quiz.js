@@ -13,7 +13,7 @@ function randomizeArray(array) {
     // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
-      array[currentIndex]
+      array[currentIndex],
     ];
   }
   return array;
@@ -23,12 +23,31 @@ const Quiz = () => {
   const difficultyLevels = [
     { value: "easy" },
     { value: "medium" },
-    { value: "hard" }
+    { value: "hard" },
   ];
   const [diffSelect, setDiffSelect] = useState("easy");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
   const [score, setScore] = useState(0);
+
+
+  const removeSpecChar = ( props) => {
+ 
+    let result = props
+      .replace(/&quot;/g, "''")
+      .replace(/&#039;/g, "'")
+      .replace(/&shy;/g, "-")
+      .replace(/&amp;/g, "&")
+      .replace(/&Iacute;/g, "í")
+      .replace(/&uuml;/g, "ü")
+      .replace(/&rsquo;/g, "’")
+      .replace(/&eacute;/g, "é")
+      .replace(/&Uuml;/g, "Ü")
+
+
+    return result;
+  };
+
 
   const loadQuestions = (e) => {
     e.preventDefault();
@@ -49,10 +68,10 @@ const Quiz = () => {
             // add "answers" prop to randomize answers up front
             answers: randomizeArray([...q.incorrect_answers, q.correct_answer]),
             // copy rest of object
-            ...q
+            ...q,
           };
         });
-        setQuestions(questions);
+        setQuestions(removeSpecChar(questions));
       })
       .catch((error) => {
         // handle error
@@ -120,14 +139,16 @@ const Quiz = () => {
         <div className="difficulty_container">
           <p>Choose difficulty level</p>
           <select id="difficulty">
-            {difficultyLevels.map((level) => (
-              <option
-                key={Math.random() * difficultyLevels.length}
-                value={level.value}
-              >
-                {level.value}
-              </option>
-            ))}
+            {difficultyLevels.map((level) => {
+              return (
+                <option
+                  key={Math.random() * difficultyLevels.length}
+                  value={level.value}
+                >
+                  {level.value}
+                </option>
+              );
+            })}
           </select>
         </div>
         <button onClick={loadQuestions}>Load Questions? </button>
