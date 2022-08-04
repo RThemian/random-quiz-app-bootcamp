@@ -2,16 +2,21 @@
 import './App.scss';
 import {BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import StartScreen from './Pages/StartScreen';
-
+import React, {useState} from 'react';
 import Quiz from './Pages/Quiz';
 import EndScreen from './Pages/EndScreen';
 import ErrorPage from './Pages/ErrorPage';
+import { QuizContext } from './Pages/Contexts';
 
 
 
 
 
 function App() {
+
+  const [score, setScore] = useState(0);
+
+
   return (
     <Router>
       <nav>
@@ -29,8 +34,12 @@ function App() {
       {/*what's above the routes will stay the same in all pages*/}
      <Routes>
        <Route path ='/' element ={<StartScreen />} />
-       <Route path ='/quiz' element ={<Quiz />} />
-       <Route path ='/endscreen' element ={<EndScreen />} />
+
+      
+       <Route path ='/quiz' element ={<Quiz score = {score} setScore = {setScore} />} />
+       <Route path ='/endscreen' element ={<EndScreen score = {score} setScore = {setScore} />} />
+     
+
        <Route path ='*' element ={<ErrorPage />} />
      </Routes>
      <div><h3>FOOTER</h3></div>

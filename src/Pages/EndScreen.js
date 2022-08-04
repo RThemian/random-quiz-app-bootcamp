@@ -1,9 +1,30 @@
-import React from 'react'
+import React from 'react';
+import {Link, useNavigate} from "react-router-dom";
 
-function EndScreen() {
+const EndScreen = ({
+  score,
+  setScore
+}) => {
+
+  let navigate = useNavigate();
+
+  const handleHomeClick = () => {
+    setScore(0);
+     let path = '/';
+     navigate(path);
+
+  }
   return (
-    <div>This is the EndScreen, want to play again?</div>
+    <>
+    <div>This is the EndScreen, you got {score} correct!</div>
+    <h2>Want to play again?</h2>
+    <button onClick = {handleHomeClick} >Home</button>
+   
+
+
+
+    </>
+
   )
 }
-
-export default EndScreen
+export default EndScreen;

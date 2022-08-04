@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import Question from "./Question";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import EndScreen from "./EndScreen";
+
+//put the randomizeArray function outside of the main component to controll its use
 
 function randomizeArray(array) {
   let currentIndex = array.length,
@@ -19,7 +23,10 @@ function randomizeArray(array) {
   return array;
 }
 
-const Quiz = () => {
+const Quiz = ({
+  score = 0,
+  setScore
+}) => {
   const difficultyLevels = [
     { value: "easy" },
     { value: "medium" },
@@ -28,25 +35,9 @@ const Quiz = () => {
   const [diffSelect, setDiffSelect] = useState("easy");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
-  const [score, setScore] = useState(0);
+  //const [score, setScore] = useState(0);
 
 
-  const removeSpecChar = ( props) => {
- 
-    let result = props
-      .replace(/&quot;/g, "''")
-      .replace(/&#039;/g, "'")
-      .replace(/&shy;/g, "-")
-      .replace(/&amp;/g, "&")
-      .replace(/&Iacute;/g, "í")
-      .replace(/&uuml;/g, "ü")
-      .replace(/&rsquo;/g, "’")
-      .replace(/&eacute;/g, "é")
-      .replace(/&Uuml;/g, "Ü")
-
-
-    return result;
-  };
 
 
   const loadQuestions = (e) => {
@@ -54,7 +45,7 @@ const Quiz = () => {
     setDiffSelect(document.querySelector("#difficulty").value);
     return axios
       .get(
-        `https://opentdb.com/api.php?amount=10&difficulty=${diffSelect}&type=multiple`
+        `https://opentdb.com/api.php?amount=3&difficulty=${diffSelect}&type=multiple`
       )
       .then((response) => {
         // handle success
@@ -71,7 +62,7 @@ const Quiz = () => {
             ...q,
           };
         });
-        setQuestions(removeSpecChar(questions));
+        setQuestions(questions);
       })
       .catch((error) => {
         // handle error
@@ -83,6 +74,7 @@ const Quiz = () => {
         // If a user clicks "Load Questions" while in the middle of
         // an existing quiz, we start them back at 0 with the new
         // questions.
+        setScore(0);
         setCurrentQuestionIndex(0);
       });
   };
@@ -104,10 +96,32 @@ const Quiz = () => {
       });
     } else {
       alert("Wrong");
-      return;
-    }
-  };
+      setCurrentQuestionIndex((previousIndex) => {
+        if (previousIndex < questions.length) {
+          return previousIndex + 1;
+    
+  }});}}
 
+// create link to EndScreen with useNavigate
+  let navigate = useNavigate();
+
+   const handleFinishQuiz = () => {
+
+    if (
+      questions[currentQuestionIndex].selectedAnswer ===
+      questions[currentQuestionIndex].correct_answer
+    ) {
+      alert("Correct!");
+      //ensures it always passes "score => score + 1"
+      setScore((score) => score + 1);
+    }
+      let path = '/endscreen';
+      navigate(path);
+
+   }
+
+//remove handlePreviousQuestion
+/*
   const handlePreviousQuestion = () => {
     setCurrentQuestionIndex((previousIndex) => {
       if (previousIndex > 0) {
@@ -115,6 +129,7 @@ const Quiz = () => {
       }
     });
   };
+  */
   //implement specCharRemover at Quiz level
   //questions[currentQuestionIndex].selectedAnswer send this nextQuestion component
 
@@ -167,13 +182,14 @@ const Quiz = () => {
         PREVIOUS QUESTION, NEXT QUESTION, and FINISH QUIZ buttons
       */}
       <div>
-        {/* previous question button */}
+        {/* previous question button 
         <button
           disabled={questions.length === 0 || currentQuestionIndex === 0}
           onClick={handlePreviousQuestion}
         >
           Previous Question
         </button>
+        */}
         {/* next question button */}
         <button
           disabled={
@@ -191,6 +207,7 @@ const Quiz = () => {
         </button>
         {/* TODO: finish quiz button */}
         <button
+          onClick = {handleFinishQuiz}
           disabled={
             // only show finish button if we are on last question
             currentQuestionIndex + 1 !== questions.length ||

@@ -7,11 +7,28 @@ const Question = ({
   selectedAnswer = "",
   onSelectAnswer
 }) => {
+  const removeSpecChar = (props) => {
+    let result = props
+      .replace(/&quot;/g, "''")
+      .replace(/&#039;/g, "'")
+      .replace(/&shy;/g, "-")
+      .replace(/&amp;/g, "&")
+      .replace(/&Iacute;/g, "í")
+      .replace(/&uuml;/g, "ü")
+      .replace(/&rsquo;/g, "’")
+      .replace(/&eacute;/g, "é")
+      .replace(/&Uuml;/g, "Ü");
+
+    return result;
+  };
+
+
+
   return (
     <div>
       {question && (
         <>
-          <h1>{question}</h1>
+          <h1>{removeSpecChar(question)}</h1>
           {answers &&
             answers.length &&
             answers.map((answer) => {
@@ -23,7 +40,7 @@ const Question = ({
                     }}
                     onClick={() => onSelectAnswer(answer)}
                   >
-                    {answer}
+                    {removeSpecChar(answer)}
                   </button>
                   <br />
                 </>
