@@ -16,7 +16,7 @@ const EndScreen = ({
   }
   return (
     <>
-    <div>This is the EndScreen, you got {score} correct!</div>
+    <div>End of quiz, you got {score} correct!</div>
     <h2>Want to play again?</h2>
     <button onClick = {handleHomeClick} >Home</button>
    

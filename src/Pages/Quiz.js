@@ -44,8 +44,10 @@ const Quiz = ({
   const loadQuestions = (e) => {
     e.preventDefault();
     setDiffSelect(document.querySelector("#difficulty").value);
-    setQuestionAmount(document.querySelector("#questionAmount").value);
-    console.log("QUESTION amount", questionAmount)
+    console.log("question query selector", document.querySelector("#questionAmount").value)
+    
+
+   
     return axios
       .get(
         `https://opentdb.com/api.php?amount=${questionAmount}&difficulty=${diffSelect}&type=multiple`
@@ -79,6 +81,8 @@ const Quiz = ({
         // questions.
         setScore(0);
         setCurrentQuestionIndex(0);
+        setDiffSelect("easy");
+        setQuestionAmount(3);
       });
   };
 
@@ -175,10 +179,16 @@ const Quiz = ({
        
         <div className="btn mb-4">
           <p>Choose how many questions</p>
-          <select className = "form-select" id ="questionAmount">
-            <option>3</option>
-            <option>5</option>
-            <option>10</option>
+          <select 
+            className = "form-select" 
+            id ="questionAmount"
+            defaultValue="easy"
+            onChange={(e) => setQuestionAmount(e.target.value)}>
+          
+          >
+            <option key = {3} value = {3} >3</option>
+            <option key = {5} value = {5} >5</option>
+            <option key = {10} value = {10} >10</option>
           </select>
         </div>
         <br/>
@@ -187,6 +197,7 @@ const Quiz = ({
       <div>
         {questions[currentQuestionIndex] !== undefined && (
           <Question
+            key = {Math.random()*questions.length+1}
             difficultyLevel = {diffSelect}
             question={questions[currentQuestionIndex].question}
             answers={questions[currentQuestionIndex].answers}
