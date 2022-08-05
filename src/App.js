@@ -11,16 +11,20 @@ import ErrorPage from './Pages/ErrorPage';
 
 
 
+
 function App() {
 
   const [score, setScore] = useState(0);
+ 
+
+  
 
 
   return (
     <Router>
       <nav>
       <ol>
-        <div>
+        <div >
         <Link to= '/'>Home</Link>
         </div>
         
@@ -41,7 +45,9 @@ function App() {
 
        <Route path ='*' element ={<ErrorPage />} />
      </Routes>
-     <div><h3>FOOTER</h3></div>
+     <div>
+      <a href = 'https://www.britannica.com/dictionary/integrity' target = "_blank" rel="noreferrer"> <h3>HEY YOU! Yeah, you! Don't google anything!</h3></a>
+       </div>
     </Router>
   )
 }

@@ -9,8 +9,9 @@ function StartScreen() {
         <span style={{ color: "red" }}>want to play a game?</span>
       </div>
 
-      <label>PRESS THE BUTTON </label>
-      <Link to="/quiz">Quiz</Link>
+      <label>PRESS THE BUTTON</label>
+      <br />
+      <Link to="/quiz"><h1>Quiz</h1></Link>
     </>
   );
 }

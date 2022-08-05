@@ -35,6 +35,7 @@ const Quiz = ({
   const [diffSelect, setDiffSelect] = useState("easy");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
+  const [questionAmount, setQuestionAmount] = useState(3);
   //const [score, setScore] = useState(0);
 
 
@@ -43,9 +44,11 @@ const Quiz = ({
   const loadQuestions = (e) => {
     e.preventDefault();
     setDiffSelect(document.querySelector("#difficulty").value);
+    setQuestionAmount(document.querySelector("#questionAmount").value);
+    console.log("QUESTION amount", questionAmount)
     return axios
       .get(
-        `https://opentdb.com/api.php?amount=3&difficulty=${diffSelect}&type=multiple`
+        `https://opentdb.com/api.php?amount=${questionAmount}&difficulty=${diffSelect}&type=multiple`
       )
       .then((response) => {
         // handle success
@@ -154,9 +157,9 @@ const Quiz = ({
     <>
       <div className="container">
         <h3>QUIZ</h3>
-        <div className="difficulty_container">
+        <div className="btn mb-4">
           <p>Choose difficulty level</p>
-          <select id="difficulty">
+          <select className = 'form-select' id="difficulty">
             {difficultyLevels.map((level) => {
               return (
                 <option
@@ -169,7 +172,17 @@ const Quiz = ({
             })}
           </select>
         </div>
-        <button onClick={loadQuestions}>Load Questions? </button>
+       
+        <div className="btn mb-4">
+          <p>Choose how many questions</p>
+          <select className = "form-select" id ="questionAmount">
+            <option>3</option>
+            <option>5</option>
+            <option>10</option>
+          </select>
+        </div>
+        <br/>
+        <button className = "btn btn-2" onClick={loadQuestions}>Load Questions? </button>
       </div>
       <div>
         {questions[currentQuestionIndex] !== undefined && (
@@ -195,7 +208,7 @@ const Quiz = ({
         </button>
         */}
         {/* next question button */}
-        <button
+        <button className = "btn btn-3"
           disabled={
             // must select an answer to continue
             (questions[currentQuestionIndex] &&
@@ -211,6 +224,7 @@ const Quiz = ({
         </button>
         {/* TODO: finish quiz button */}
         <button
+          className = "btn btn-3 m-2"
           onClick = {handleFinishQuiz}
           disabled={
             // only show finish button if we are on last question

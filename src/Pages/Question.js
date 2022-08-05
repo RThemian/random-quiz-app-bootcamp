@@ -1,5 +1,5 @@
 import React from "react";
-import "./Question.css";
+
 
 const Question = ({
   difficultyLevel,
@@ -23,6 +23,7 @@ const Question = ({
     return result;
   };
 
+  
 
 
   return (
@@ -31,15 +32,15 @@ const Question = ({
         <>
         
           <h1>{removeSpecChar(question)}</h1>
-          <h5>Difficulty Level {difficultyLevel}</h5>
+          <h5>Difficulty Level:  <span style={{ color: '#FF6150' }}>{difficultyLevel.toUpperCase()}</span> </h5>
           {answers &&
             answers.length &&
             answers.map((answer) => {
               return (
                 <>
-                  <button className="answers"
+                  <button className= 'btn btn-1 wrap'
                     style={{
-                      backgroundColor: selectedAnswer === answer ? "magenta" : ""
+                      backgroundColor: selectedAnswer === answer ? "#FF6150" : ""
                     }}
                     onClick={() => onSelectAnswer(answer)}
                   >
