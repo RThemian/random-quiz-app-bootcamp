@@ -15,6 +15,7 @@ import ErrorPage from './Pages/ErrorPage';
 function App() {
 
   const [score, setScore] = useState(0);
+  const [pointsPossible, setPointsPossible] = useState(0);
  
 
   
@@ -22,21 +23,21 @@ function App() {
 
   return (
     <Router>
-      <nav >
+      <nav className = "nav flex-center" >
       <ol>
-        <div className = "navbar navbar-default">
+        <div className = "navbar navbar-default container">
 
         
         <div className = "container-fluid">
           <div className = "navbar-header" >
           
             
-              <Link to= '/'>Home</Link>
+              <Link  to= '/'>Home</Link>
             
               {"    "}
               {"    "}
            
-               <Link to='/endscreen'>EndScreen</Link>
+               <Link  to='/endscreen'>EndScreen</Link>
              
          
         </div>
@@ -51,14 +52,24 @@ function App() {
        <Route path ='/' element ={<StartScreen />} />
 
       
-       <Route path ='/quiz' element ={<Quiz score = {score} setScore = {setScore} />} />
-       <Route path ='/endscreen' element ={<EndScreen score = {score} setScore = {setScore} />} />
+       <Route path ='/quiz' element ={<Quiz 
+                  score = {score} 
+                  setScore = {setScore} 
+                  pointsPossible = {pointsPossible} 
+                  setPointsPossible = {setPointsPossible}
+                  />} />
+       <Route path ='/endscreen' element ={<EndScreen 
+                  score = {score} 
+                  setScore = {setScore}
+                  pointsPossible = {pointsPossible} 
+                  setPointsPossible = {setPointsPossible}
+                  />} />
      
 
        <Route path ='*' element ={<ErrorPage />} />
      </Routes>
      <div>
-      <a href = 'https://www.britannica.com/dictionary/integrity' target = "_blank" rel="noreferrer"> <h3>HEY YOU! Yeah, you! Don't google anything!</h3></a>
+      <a href = 'https://www.britannica.com/dictionary/integrity' target = "_blank" rel="noreferrer"> <h6>HEY YOU! Yeah, you! Don't google anything!</h6></a>
        </div>
     </Router>
   )

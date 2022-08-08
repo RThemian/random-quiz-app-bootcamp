@@ -3,7 +3,9 @@ import {useNavigate} from "react-router-dom";
 
 const EndScreen = ({
   score,
-  setScore
+  setScore,
+  pointsPossible,
+  setPointsPossible
 }) => {
 
   let navigate = useNavigate();
@@ -16,9 +18,9 @@ const EndScreen = ({
   }
   return (
     <>
-    <div>End of quiz, you got {score} correct!</div>
+    <div><h1>End of quiz, you got {score} out of {pointsPossible} correct!</h1></div>
     <h2>Want to play again?</h2>
-    <button onClick = {handleHomeClick} >Home</button>
+    <button className = "btn btn-1" onClick = {handleHomeClick} >Home</button>
    
 
 

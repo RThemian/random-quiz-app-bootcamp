@@ -28,7 +28,9 @@ function randomizeArray(array) {
 
 const Quiz = ({
   score = 0,
-  setScore
+  setScore,
+  pointsPossible = 0,
+  setPointsPossible
 }) => {
   const difficultyLevels = [
     { value: "easy" },
@@ -72,6 +74,7 @@ const Quiz = ({
           };
         });
         setQuestions(questions);
+        setPointsPossible(questions.length);
       })
       .catch((error) => {
         // handle error
@@ -85,8 +88,7 @@ const Quiz = ({
         // questions.
         setScore(0);
         setCurrentQuestionIndex(0);
-        setDiffSelect("easy");
-        setQuestionAmount(3);
+        
       });
   };
 
@@ -167,6 +169,9 @@ const Quiz = ({
 
   return (
     <>
+
+    <div>
+    {questions.length ===0 && (
       <div className="container">
         <h3>QUIZ</h3>
         <div className="btn btn-4 mb-4">
@@ -201,7 +206,10 @@ const Quiz = ({
         </div>
         <br/>
         <button className = "btn btn-2" onClick={loadQuestions}>Load Questions? </button>
+      </div> ) }
       </div>
+          
+
       <div>
         {questions[currentQuestionIndex] !== undefined && (
           <Question
