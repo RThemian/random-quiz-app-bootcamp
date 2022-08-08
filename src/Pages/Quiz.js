@@ -175,7 +175,7 @@ const Quiz = ({
       <div className="container">
         <h3>QUIZ</h3>
         <div className="btn btn-4 mb-4">
-          <p>Choose difficulty level</p>
+          <p className = "text-white">Choose difficulty level</p>
           <select className = 'form-select' id="difficulty">
             {difficultyLevels.map((level) => {
               return (
@@ -191,7 +191,7 @@ const Quiz = ({
         </div>
        
         <div className="btn btn-4 mb-4">
-          <p>Choose how many questions</p>
+          <p className = "text-white">Choose how many questions</p>
           <select 
             className = "form-select" 
             id ="questionAmount"
