@@ -53,6 +53,19 @@ div {
   @include button-bg($light-blue);
 }
 
+.btn-4 {
+  @mixin button-bg($bg) {
+    background: $bg;
+    &:hover {
+      background:lighten($bg,80%);
+      transition: all 0.3s ease;
+    }
+    &:active {
+      background:lighten($bg,55%);
+    } 
+  }
+}
+
 select, p {
   font-family: 'Space-Mono';
   font-size: 1rem;

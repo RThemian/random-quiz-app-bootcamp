@@ -22,15 +22,27 @@ function App() {
 
   return (
     <Router>
-      <nav>
+      <nav >
       <ol>
-        <div >
-        <Link to= '/'>Home</Link>
-        </div>
+        <div className = "navbar navbar-default">
+
         
-        <div>
-        <Link to='/endscreen'>EndScreen</Link>
+        <div className = "container-fluid">
+          <div className = "navbar-header" >
+          
+            
+              <Link to= '/'>Home</Link>
+            
+              {"    "}
+              {"    "}
+           
+               <Link to='/endscreen'>EndScreen</Link>
+             
+         
         </div>
+        </div>
+        </div>
+
       </ol>
       </nav>
     

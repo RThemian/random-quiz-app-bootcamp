@@ -2,6 +2,9 @@ import React, { useState} from "react";
 import Question from "./Question";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import useSound from 'use-sound';
+import correctSound from "./../sfx/CorrectSoundRight.wav";
+import incorrectSound from "./../sfx/IncorrectSoundWrong.wav";
 
 
 //put the randomizeArray function outside of the main component to controll its use
@@ -37,7 +40,8 @@ const Quiz = ({
   const [questions, setQuestions] = useState([]);
   const [questionAmount, setQuestionAmount] = useState(3);
   //const [score, setScore] = useState(0);
-
+  const [playCorrect] = useSound(correctSound, { volume: 0.5 });
+  const [playIncorrect] = useSound(incorrectSound, { volume: 0.5 });
 
 
 
@@ -87,12 +91,13 @@ const Quiz = ({
   };
 
   //
-  const handleNextQuestion = () => {
+  const HandleNextQuestion = () => {
     //add if correct else return
     if (
       questions[currentQuestionIndex].selectedAnswer ===
       questions[currentQuestionIndex].correct_answer
     ) {
+      playCorrect();
       alert("Correct!");
       //ensures it always passes "score => score + 1"
       setScore((score) => score + 1);
@@ -102,6 +107,7 @@ const Quiz = ({
         }
       });
     } else {
+      playIncorrect();
       alert("Wrong");
       setCurrentQuestionIndex((previousIndex) => {
         if (previousIndex < questions.length) {
@@ -112,17 +118,19 @@ const Quiz = ({
 // create link to EndScreen with useNavigate
   let navigate = useNavigate();
 
-   const handleFinishQuiz = () => {
+   const HandleFinishQuiz = () => {
 
     if (
       questions[currentQuestionIndex].selectedAnswer ===
       questions[currentQuestionIndex].correct_answer
     ) {
+      playCorrect();
       alert("Correct!");
       //ensures it always passes "score => score + 1"
       setScore((score) => score + 1);
     }
     else {
+      playIncorrect();
       alert("Wrong!!")
     }
       let path = '/endscreen';
@@ -161,7 +169,7 @@ const Quiz = ({
     <>
       <div className="container">
         <h3>QUIZ</h3>
-        <div className="btn mb-4">
+        <div className="btn btn-4 mb-4">
           <p>Choose difficulty level</p>
           <select className = 'form-select' id="difficulty">
             {difficultyLevels.map((level) => {
@@ -177,7 +185,7 @@ const Quiz = ({
           </select>
         </div>
        
-        <div className="btn mb-4">
+        <div className="btn btn-4 mb-4">
           <p>Choose how many questions</p>
           <select 
             className = "form-select" 
@@ -185,7 +193,7 @@ const Quiz = ({
             defaultValue="easy"
             onChange={(e) => setQuestionAmount(e.target.value)}>
           
-          >
+          
             <option key = {3} value = {3} >3</option>
             <option key = {5} value = {5} >5</option>
             <option key = {10} value = {10} >10</option>
@@ -229,14 +237,14 @@ const Quiz = ({
             // if we are at the last question
             currentQuestionIndex + 1 === questions.length
           }
-          onClick={handleNextQuestion}
+          onClick={HandleNextQuestion}
         >
           Next Question
         </button>
         {/* TODO: finish quiz button */}
         <button
           className = "btn btn-3 m-2"
-          onClick = {handleFinishQuiz}
+          onClick = {HandleFinishQuiz}
           disabled={
             // only show finish button if we are on last question
             currentQuestionIndex + 1 !== questions.length ||
