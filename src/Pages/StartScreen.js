@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "mui-button";
+//import Button from "mui-button";
 import { Link } from "react-router-dom";
 
 function StartScreen() {
@@ -12,9 +12,9 @@ function StartScreen() {
 
       <label>PRESS THE BUTTON</label>
       <br />
-      <Button color="error" variant="outlined">
+      <button className = "btn">
       <Link to="/quiz"><h1>Quiz</h1></Link>
-    </Button>
+    </button>
     </>
   );
 }
