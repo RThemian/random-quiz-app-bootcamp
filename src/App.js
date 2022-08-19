@@ -26,8 +26,17 @@ function App() {
   const [loginPassword, setLoginPassword] = useState("");
   const [user, setUser] = useState({});
 
-/*
 
+useEffect(() => {
+  try {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+  })
+  } catch (error) {
+    console.log(error.message)
+  }
+}, [user])
+/*
   try {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
