@@ -6,7 +6,7 @@ import React, {useState, useEffect} from 'react';
 import Quiz from './Pages/Quiz';
 import EndScreen from './Pages/EndScreen';
 import ErrorPage from './Pages/ErrorPage';
-import {createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut} from 'firebase/auth';
+import {createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from './Context/firebase';
 
 
@@ -26,6 +26,7 @@ function App() {
   const [loginPassword, setLoginPassword] = useState("");
   const [user, setUser] = useState({});
 
+/*
 
   try {
     onAuthStateChanged(auth, (currentUser) => {
@@ -34,7 +35,7 @@ function App() {
   } catch (error) {
     console.log(error.message)
   }
-  
+  */
 
   
 
@@ -70,7 +71,7 @@ function App() {
     }
 
    }
-
+/*
 const logout = async () => {
   try {
     await signOut(auth);
@@ -80,7 +81,7 @@ const logout = async () => {
   
 }  
 
-
+*/
   return (
     <Router>
       <div>
@@ -98,7 +99,7 @@ const logout = async () => {
       <div>
         <h4>User Logged In:</h4>
         
-        <button onClick = {logout}>Sign Out</button>
+        <button >Sign Out</button>
         {user?.email}
       </div>
       <nav className = "nav flex-center" >
