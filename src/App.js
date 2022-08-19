@@ -9,6 +9,8 @@ import ErrorPage from './Pages/ErrorPage';
 import {createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from './Context/firebase';
 
+import { db, doc, setDoc } from "firebase/firestore"; 
+
 
 
 
@@ -80,7 +82,7 @@ useEffect(() => {
     }
 
    }
-/*
+
 const logout = async () => {
   try {
     await signOut(auth);
@@ -90,7 +92,7 @@ const logout = async () => {
   
 }  
 
-*/
+
   return (
     <Router>
       <div>
@@ -108,7 +110,7 @@ const logout = async () => {
       <div>
         <h4>User Logged In:</h4>
         
-        <button >Sign Out</button>
+        <button onClick = {logout}>Sign Out</button>
         {user?.email}
       </div>
       <nav className = "nav flex-center" >
