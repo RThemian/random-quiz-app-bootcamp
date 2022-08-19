@@ -6,7 +6,7 @@ import React, {useState, useEffect} from 'react';
 import Quiz from './Pages/Quiz';
 import EndScreen from './Pages/EndScreen';
 import ErrorPage from './Pages/ErrorPage';
-import {createUserWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth';
+import {createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut} from 'firebase/auth';
 import {auth} from './Context/firebase';
 
 
@@ -27,10 +27,14 @@ function App() {
   const [user, setUser] = useState({});
 
 
-
-  onAuthStateChanged(auth, (currentUser) => {
+  try {
+    onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
   })
+  } catch (error) {
+    console.log(error.message)
+  }
+  
 
   
 
@@ -53,10 +57,27 @@ function App() {
  
    const login = async () => {
 
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth, 
+        loginEmail, 
+        loginPassword
+      );
+      console.log(user);
+    } catch (error) {
+      //invalid email
+      console.log(error.message)
+    }
+
    }
 
 const logout = async () => {
-  //await signOut(auth);
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.log(error.message)
+  }
+  
 }  
 
 
@@ -72,13 +93,13 @@ const logout = async () => {
         <h3>Login</h3>
         <input placeholder='Email...' onChange = {(event => setLoginEmail(event.target.value))}/>
         <input placeholder='Password...' onChange = {(event => setLoginPassword(event.target.value))}/>
-        <button>Login</button>
+        <button onClick = {login} >Login</button>
       </div>
       <div>
         <h4>User Logged In:</h4>
         
-        <button >Sign Out</button>
-        {user.email}
+        <button onClick = {logout}>Sign Out</button>
+        {user?.email}
       </div>
       <nav className = "nav flex-center" >
       <ol>
