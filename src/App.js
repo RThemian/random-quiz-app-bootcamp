@@ -66,6 +66,8 @@ useEffect(() => {
  
    const login = async () => {
 
+    setLoginEmail("")
+    setLoginPassword("");
     try {
       const user = await signInWithEmailAndPassword(
         auth, 
@@ -73,11 +75,12 @@ useEffect(() => {
         loginPassword
       );
       console.log(user);
+      
     } catch (error) {
       //invalid email
       console.log(error.message)
     }
-
+    
    }
 
 const logout = async () => {
@@ -131,7 +134,7 @@ const logout = async () => {
      
         
         
-       {user ? <div> <h4>User Logged In:</h4> <button onClick = {logout}>Sign Out</button> </div>: ""} 
+       {user ? <div> <h4>User Logged In:</h4> <button onClick = {logout}>Sign Out</button> </div> : ""} 
         {user?.email}
       
     
