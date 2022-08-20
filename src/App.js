@@ -9,9 +9,6 @@ import ErrorPage from './Pages/ErrorPage';
 import {createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword} from 'firebase/auth';
 import {auth} from './Context/firebase';
 
-import { db, doc, setDoc } from "firebase/firestore"; 
-
-
 
 
 function App() {
@@ -95,24 +92,7 @@ const logout = async () => {
 
   return (
     <Router>
-      <div>
-        <h3>Register User</h3>
-        <input placeholder='Email...'  onChange = {(event => setRegisterEmail(event.target.value))} />
-        <input placeholder='Password...' onChange = {(event => setRegisterPassword(event.target.value))} />
-        <button onClick = {register}>Create User</button>
-      </div>
-      <div>
-        <h3>Login</h3>
-        <input placeholder='Email...' onChange = {(event => setLoginEmail(event.target.value))}/>
-        <input placeholder='Password...' onChange = {(event => setLoginPassword(event.target.value))}/>
-        <button onClick = {login} >Login</button>
-      </div>
-      <div>
-        <h4>User Logged In:</h4>
-        
-        <button onClick = {logout}>Sign Out</button>
-        {user?.email}
-      </div>
+      
       <nav className = "nav flex-center" >
       <ol>
         <div className = "navbar navbar-default container">
@@ -136,6 +116,24 @@ const logout = async () => {
 
       </ol>
       </nav>
+      <div>
+        <h3>Register User</h3>
+        <input placeholder='Email...'  onChange = {(event => setRegisterEmail(event.target.value))} />
+        <input placeholder='Password...' onChange = {(event => setRegisterPassword(event.target.value))} />
+        <button onClick = {register}>Create User</button>
+      </div>
+      <div>
+        <h3>Login</h3>
+        <input placeholder='Email...' onChange = {(event => setLoginEmail(event.target.value))}/>
+        <input placeholder='Password...' onChange = {(event => setLoginPassword(event.target.value))}/>
+        <button onClick = {login} >Login</button>
+      </div>
+     
+        
+        
+       {user ? <div> <h4>User Logged In:</h4> <button onClick = {logout}>Sign Out</button> </div>: ""} 
+        {user?.email}
+      
     
       {/*what's above the routes will stay the same in all pages*/}
      <Routes>

@@ -1,5 +1,7 @@
 import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth';
+import { getFirestore } from "firebase/firestore";
+
 //need to replace with environment variables before uploading to github
 
 const firebaseConfig = {
@@ -14,4 +16,10 @@ const firebaseConfig = {
   
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
+
+
+// Initialize Cloud Firestore and get a reference to the service
+  const db = getFirestore(app);
+
+
   export const auth = getAuth(app);

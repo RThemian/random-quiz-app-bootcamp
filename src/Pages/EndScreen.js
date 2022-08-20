@@ -1,5 +1,10 @@
 import React from 'react';
 import {useNavigate} from "react-router-dom";
+import {db} from './../Context/firebase';
+
+
+
+
 
 const EndScreen = ({
   score,
@@ -7,6 +12,8 @@ const EndScreen = ({
   pointsPossible,
   setPointsPossible
 }) => {
+
+
 
   let navigate = useNavigate();
 
@@ -21,6 +28,7 @@ const EndScreen = ({
     <div><h1>End of quiz, you got {score} out of {pointsPossible} correct!</h1></div>
     <h2>Want to play again?</h2>
     <button className = "btn btn-1" onClick = {handleHomeClick} >Home</button>
+    <button className = "btn btn-3"  >Save Score</button>
    
 
 
