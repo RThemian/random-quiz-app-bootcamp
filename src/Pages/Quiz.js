@@ -45,13 +45,13 @@ const Quiz = ({
   const [playCorrect] = useSound(correctSound, { volume: 0.5 });
   const [playIncorrect] = useSound(incorrectSound, { volume: 0.5 });
 
-
+  
 
   const loadQuestions = (e) => {
     e.preventDefault();
     setDiffSelect(document.querySelector("#difficulty").value);
     console.log("question query selector", document.querySelector("#questionAmount").value)
-    
+  
 
    
     return axios
