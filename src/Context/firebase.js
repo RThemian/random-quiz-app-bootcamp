@@ -1,6 +1,11 @@
 import { initializeApp } from "firebase/app";
 import {getAuth} from 'firebase/auth';
-import { getFirestore } from "firebase/firestore";
+import { 
+  getFirestore,
+  collection,
+  getDocs,
+  doc
+} from "firebase/firestore";
 
 //need to replace with environment variables before uploading to github
 
@@ -32,7 +37,24 @@ const firebaseConfig = {
 console.log(process.env)
 
 // Initialize Cloud Firestore and get a reference to the service
-  const db = getFirestore(app);
+   const db = getFirestore();
+
+   //initialize services
+
+const colRef = collection(db, 'scores');
+
+console.log("COLREF", colRef)
+
+const loneDatabaseRef = doc(db, 'Scores')
+console.log("LONE", loneDatabaseRef);
+
+//get collection data
+getDocs(colRef)
+  .then((snapshot) => {
+    console.log("snapshot", snapshot.docs, snapshot, loneDatabaseRef)
+  })
+  .catch(error => console.log(error))
+
 
 
   export const auth = getAuth(app);

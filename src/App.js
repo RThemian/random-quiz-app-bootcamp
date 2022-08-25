@@ -11,7 +11,8 @@ import {
   signOut,
   signInWithEmailAndPassword
 } from "firebase/auth";
-import { auth } from "./Context/firebase";
+
+import { auth} from "./Context/firebase";
 
 function App() {
   const [score, setScore] = useState(0);
@@ -26,6 +27,8 @@ function App() {
   const [loginPassword, setLoginPassword] = useState("");
   const [user, setUser] = useState({});
 
+
+
   useEffect(() => {
     try {
       onAuthStateChanged(auth, (currentUser) => {
@@ -35,18 +38,9 @@ function App() {
       console.log(error.message);
     }
   }, [user]);
-  /*
-  try {
-    onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-  })
-  } catch (error) {
-    console.log(error.message)
-  }
-  */
+ 
 
-  //most firebase functions return promises, so must use try/catch or async/await to handle them
-  //.then approach doesn't fit this syntax
+
 
   const register = async () => {
     setRegisterEmail("");
