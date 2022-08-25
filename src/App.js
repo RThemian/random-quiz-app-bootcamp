@@ -11,8 +11,16 @@ import {
   signOut,
   signInWithEmailAndPassword
 } from "firebase/auth";
+import { 
+  getFirestore,
+  collection,
+  query,
+  onSnapshot,
+  getDocs,
+  doc
+} from "firebase/firestore";
+import { auth, Database} from "./Context/firebase";
 
-import { auth} from "./Context/firebase";
 
 function App() {
   const [score, setScore] = useState(0);
@@ -27,6 +35,23 @@ function App() {
   const [loginPassword, setLoginPassword] = useState("");
   const [user, setUser] = useState({});
 
+  const [oldScores, setOldScores] = useState([]);
+
+  
+
+   useEffect(() => {
+     const q = query(collection(Database, "scores"));
+     const unsub = onSnapshot(q, (querySnapshot) => {
+       let scoresArray = [];
+       querySnapshot.forEach((doc) => {
+         scoresArray.push({...doc.data(), id: doc.id });
+       })
+       setOldScores(scoresArray);
+     }); 
+     return () => unsub();
+   }, );
+
+   console.log("oldScores", oldScores)
 
 
   useEffect(() => {

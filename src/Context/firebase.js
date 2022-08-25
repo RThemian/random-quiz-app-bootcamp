@@ -34,27 +34,14 @@ const firebaseConfig = {
   
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-console.log(process.env)
+  console.log(process.env)
 
 // Initialize Cloud Firestore and get a reference to the service
-   const db = getFirestore();
+  
 
    //initialize services
 
-const colRef = collection(db, 'scores');
-
-console.log("COLREF", colRef)
-
-const loneDatabaseRef = doc(db, 'Scores')
-console.log("LONE", loneDatabaseRef);
-
-//get collection data
-getDocs(colRef)
-  .then((snapshot) => {
-    console.log("snapshot", snapshot.docs, snapshot, loneDatabaseRef)
-  })
-  .catch(error => console.log(error))
-
-
+   
+  export const Database = getFirestore(app);
 
   export const auth = getAuth(app);
