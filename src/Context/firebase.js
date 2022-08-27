@@ -23,7 +23,7 @@ import {
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_APIKEY,
     authDomain: process.env.REACT_APP_AUTHDOMAIN,
-    projectId: process.env.REACT_APP_APP_PROJECTID,
+    projectId: process.env.REACT_APP_PROJECTID,
     storageBucket: process.env.REACT_APP_STORAGEBUCKET,
     messagingSenderId: process.env.REACT_APP_MESSAGINGSENDERID,
     appId: process.env.REACT_APP_APPID,
@@ -43,5 +43,17 @@ const firebaseConfig = {
 
    
   export const Database = getFirestore(app);
+
+  const colRef = collection(Database, 'Scores');
+
+  getDocs(colRef)
+  .then((snapshot) => {
+    snapshot.forEach((values)=>{
+      console.log({values: values.data()})
+    })
+  })
+  .catch(error => console.log(error))
+
+
 
   export const auth = getAuth(app);
