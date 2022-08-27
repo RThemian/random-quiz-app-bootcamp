@@ -12,14 +12,10 @@ import {
   signInWithEmailAndPassword
 } from "firebase/auth";
 import { 
-  getFirestore,
   collection,
-  query,
-  onSnapshot,
-  getDocs,
-  doc
+  getDocs
 } from "firebase/firestore";
-import { auth, Database} from "./Context/firebase";
+import { auth} from "./Context/firebase";
 
 
 function App() {
@@ -38,24 +34,12 @@ function App() {
   const [oldScores, setOldScores] = useState([]);
 
   
+
+
+
+  
   
  
-
-
-  //  useEffect(() => {
-  //    const q = query(collection(Database, "scores"));
-  //    const unsub = onSnapshot(q, (querySnapshot) => {
-  //      let scoresArray = [];
-  //      querySnapshot.forEach((doc) => {
-  //        scoresArray.push({...doc.data() });
-  //        console.log(doc.data())
-  //      })
-  //      setOldScores(scoresArray);
-  //    }); 
-  //    return () => unsub();
-  //  }, );
-
-  //  console.log("oldScores", oldScores)
 
 
   useEffect(() => {
@@ -170,6 +154,7 @@ function App() {
         ""
       )}
       {user?.email}
+     
 
       {/*what's above the routes will stay the same in all pages*/}
       <Routes>
