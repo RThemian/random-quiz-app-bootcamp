@@ -12,9 +12,9 @@ import {
   signInWithEmailAndPassword
 } from "firebase/auth";
 import { 
-  addDoc
+  addDoc, deleteDoc, doc
 } from "firebase/firestore";
-import { auth, ColRef} from "./Context/firebase";
+import { auth, ColRef, Database} from "./Context/firebase";
 
 
 function App() {
@@ -91,6 +91,20 @@ score
 
   })
 
+  let deleteScoreForm = document.querySelector('.delete');
+  useEffect(() => {
+
+    if (deleteScoreForm) {
+   deleteScoreForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const docRef = doc(Database, 'Scores', deleteScoreForm.id.value )
+    deleteDoc(docRef)
+    .then(() => {
+      deleteScoreForm.reset();
+    })
+  })
+    }})
 
 
   const register = async () => {

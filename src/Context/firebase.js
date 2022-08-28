@@ -40,13 +40,13 @@ const firebaseConfig = {
 
 
 
-    const db = getFirestore();
+    export const Database = getFirestore();
 // Initialize Cloud Firestore and get a reference to the service
   
 
    //initialize services
    
-   export const ColRef = collection(db, 'Scores');
+   export const ColRef = collection(Database, 'Scores');
 
   
   //let scores = [];
