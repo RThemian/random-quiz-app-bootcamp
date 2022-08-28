@@ -12,10 +12,9 @@ import {
   signInWithEmailAndPassword
 } from "firebase/auth";
 import { 
-  collection,
-  getDocs
+  addDoc
 } from "firebase/firestore";
-import { auth} from "./Context/firebase";
+import { auth, ColRef} from "./Context/firebase";
 
 
 function App() {
@@ -52,6 +51,45 @@ function App() {
     }
   }, [user]);
  
+/*
+dateTime
+"August 19 2022, 4:15:17 pm"
+difficulty
+"easy"
+loginEmail
+"tom.cservenak@tsd.org"
+(string)
+pointsPossible
+"10"
+score
+"10"
+*/
+
+
+  let addScoreForm = document.querySelector('.add');
+
+  console.log(addScoreForm)
+  useEffect(() => {
+
+  if (addScoreForm) {
+    addScoreForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+  
+      addDoc(ColRef, {
+        loginEmail: addScoreForm.loginEmail.value,
+        score: addScoreForm.score.value,
+        pointsPossible: addScoreForm.pointsPossible.value,
+        dateTime: addScoreForm.dateTime.value,
+        difficulty: addScoreForm.difficulty.value
+      })
+      .then(() => {
+        addScoreForm.reset();
+      })
+  
+    })
+  }
+
+  })
 
 
 
@@ -154,6 +192,29 @@ function App() {
         ""
       )}
       {user?.email}
+      <div className = 'container m-2 p-2'>
+        <h4>Past Scores</h4>
+        <form className="add">
+          <label htmlFor = 'loginEmail'>User Email</label>{" "}
+          <input className = 'pb-2' type = 'text' name = 'loginEmail' required></input>{" "}
+          <label htmlFor = 'score'>Points Scored</label>{" "}
+          <input className = 'pb-2' type = 'text' name = 'score' required></input>{" "}
+          <label htmlFor = 'pointsPossible'>Points Possible</label>{" "}
+          <input className = 'pb-2' type = 'text' name = 'pointsPossible' required></input>{" "}
+          <label htmlFor = 'dateTime'>Enter date</label>{" "}
+          <input type = 'date' name = 'dateTime' required></input>{" "}
+          <label htmlFor = 'difficulty'>Enter difficulty</label>{" "}
+          <input type = 'text' name = 'difficulty' required></input>{" "}
+          <button>Add a new score</button>
+        </form>
+
+        <form className = 'delete p-2 m-2'>
+          <label htmlFor = "id">Document id:</label>
+          <input type = 'text' name = 'id' required></input>{" "}
+          <button>delete a score</button>
+        </form>
+        
+      </div>
      
 
       {/*what's above the routes will stay the same in all pages*/}

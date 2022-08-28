@@ -46,11 +46,11 @@ const firebaseConfig = {
 
    //initialize services
    
-   const colRef = collection(db, 'Scores');
+   export const ColRef = collection(db, 'Scores');
 
   
   //let scores = [];
-   getDocs(colRef)
+   getDocs(ColRef)
     .then((snapshot) => {
       console.log(snapshot.docs)
       let scores = []
@@ -62,7 +62,9 @@ const firebaseConfig = {
     .catch( error => {
       console.log(error.message)
     })
-    export const Database = "";
-  
+   
+   
+
+
 
   export const auth = getAuth(app);
