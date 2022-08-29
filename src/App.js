@@ -1,6 +1,8 @@
 import "./App.scss";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import StartScreen from "./Pages/StartScreen";
+import Home from "./Pages/Home";
+import Register from "./Pages/Register";
+
 import React, { useState, useEffect } from "react";
 import Quiz from "./Pages/Quiz";
 import EndScreen from "./Pages/EndScreen";
@@ -12,7 +14,7 @@ import {
   signInWithEmailAndPassword
 } from "firebase/auth";
 import { 
-  addDoc, deleteDoc, doc
+  addDoc, deleteDoc, doc, onSnapshot
 } from "firebase/firestore";
 import { auth, ColRef, Database} from "./Context/firebase";
 
@@ -51,21 +53,7 @@ function App() {
     }
   }, [user]);
  
-/*
-dateTime
-"August 19 2022, 4:15:17 pm"
-difficulty
-"easy"
-loginEmail
-"tom.cservenak@tsd.org"
-(string)
-pointsPossible
-"10"
-score
-"10"
-*/
-
-
+  
   let addScoreForm = document.querySelector('.add');
 
   console.log(addScoreForm)
@@ -106,6 +94,15 @@ score
   })
     }})
 
+  onSnapshot(ColRef, (snapshot) => {
+
+    let scores = []
+    snapshot.docs.forEach((doc) => {
+      scores.push({...doc.data(), id: doc.id})
+    })
+    console.log(scores)
+  })
+    
 
   const register = async () => {
     setRegisterEmail("");
@@ -166,6 +163,7 @@ score
           </div>
         </ol>
       </nav>
+      {/* 
       <div>
         <h3>Register User</h3>
         <input
@@ -229,11 +227,11 @@ score
         </form>
         
       </div>
-     
+     */}
 
       {/*what's above the routes will stay the same in all pages*/}
       <Routes>
-        <Route path="/" element={<StartScreen />} />
+        <Route path="/" element={<Home />} />
 
         <Route
           path="/quiz"
@@ -257,6 +255,13 @@ score
             />
           }
         />
+        <Route 
+          path = "/register"
+          element = {
+            <Register/>
+          }
+          />
+
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>
