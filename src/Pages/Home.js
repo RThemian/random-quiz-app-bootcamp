@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -12,6 +12,7 @@ import {
   signOut,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { auth, ColRef, Database } from "../Context/firebase";
 
 const Home = () => {
   const [loginEmail, setLoginEmail] = useState("");
@@ -34,6 +35,14 @@ const Home = () => {
       console.log(error.message);
     }
   };
+
+  try {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
 
   const logout = async () => {
     try {
@@ -69,7 +78,9 @@ const Home = () => {
           value={loginPassword}
           onChange={(event) => setLoginPassword(event.target.value)}
         />
-        <button>Login</button>
+        <button onClick={login}>Login</button>
+
+        <h2> {user?.email}</h2>
 
         <h3>
           If not registered, click{" "}
