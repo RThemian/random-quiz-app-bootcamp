@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -36,14 +36,18 @@ const Home = () => {
     }
   };
 
-  try {
-    onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-  } catch (error) {
-    console.log(error.message);
-  }
+  useEffect(() => {
+    try {
+      onAuthStateChanged(auth, (currentUser) => {
+        setUser(currentUser);
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, [user]);
 
+  //signOut function is slowing down site for some reason
+  /*
   const logout = async () => {
     try {
       await signOut(auth);
@@ -51,7 +55,7 @@ const Home = () => {
       console.log(error.message);
     }
   };
-
+*/
   let navigate = useNavigate();
 
   const handleRegisterEmail = () => {
@@ -66,7 +70,7 @@ const Home = () => {
         <h3>By Tomas Paul Cservenak</h3>
       </div>
       <div>
-        <h3>Log In if you are registered</h3>
+        <h3>Login</h3>
         <input
           placeholder="Email..."
           value={loginEmail}
@@ -81,6 +85,7 @@ const Home = () => {
         <button onClick={login}>Login</button>
 
         <h2> {user?.email}</h2>
+        {user ? <button>Sign out</button> : ""}
 
         <h3>
           If not registered, click{" "}
