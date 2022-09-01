@@ -63,6 +63,8 @@ const Home = () => {
     navigate(path);
   };
 
+  //link successful login && route to logged in and see scores
+
   return (
     <>
       <div>

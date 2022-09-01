@@ -11,13 +11,10 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
 } from "firebase/auth";
-import { 
-  addDoc, deleteDoc, doc, onSnapshot
-} from "firebase/firestore";
-import { auth, ColRef, Database} from "./Context/firebase";
-
+import { addDoc, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import { auth, ColRef, Database } from "./Context/firebase";
 
 function App() {
   const [score, setScore] = useState(0);
@@ -34,15 +31,6 @@ function App() {
 
   const [oldScores, setOldScores] = useState([]);
 
-  
-
-
-
-  
-  
- 
-
-
   useEffect(() => {
     try {
       onAuthStateChanged(auth, (currentUser) => {
@@ -52,57 +40,49 @@ function App() {
       console.log(error.message);
     }
   }, [user]);
- 
-  
-  let addScoreForm = document.querySelector('.add');
 
-  console.log(addScoreForm)
+  let addScoreForm = document.querySelector(".add");
+
+  console.log(addScoreForm);
   useEffect(() => {
+    if (addScoreForm) {
+      addScoreForm.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-  if (addScoreForm) {
-    addScoreForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-  
-      addDoc(ColRef, {
-        loginEmail: addScoreForm.loginEmail.value,
-        score: addScoreForm.score.value,
-        pointsPossible: addScoreForm.pointsPossible.value,
-        dateTime: addScoreForm.dateTime.value,
-        difficulty: addScoreForm.difficulty.value
-      })
-      .then(() => {
-        addScoreForm.reset();
-      })
-  
-    })
-  }
+        addDoc(ColRef, {
+          loginEmail: addScoreForm.loginEmail.value,
+          score: addScoreForm.score.value,
+          pointsPossible: addScoreForm.pointsPossible.value,
+          dateTime: addScoreForm.dateTime.value,
+          difficulty: addScoreForm.difficulty.value,
+        }).then(() => {
+          addScoreForm.reset();
+        });
+      });
+    }
+  });
 
-  })
-
-  let deleteScoreForm = document.querySelector('.delete');
+  let deleteScoreForm = document.querySelector(".delete");
   useEffect(() => {
-
     if (deleteScoreForm) {
-   deleteScoreForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+      deleteScoreForm.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-    const docRef = doc(Database, 'Scores', deleteScoreForm.id.value )
-    deleteDoc(docRef)
-    .then(() => {
-      deleteScoreForm.reset();
-    })
-  })
-    }})
+        const docRef = doc(Database, "Scores", deleteScoreForm.id.value);
+        deleteDoc(docRef).then(() => {
+          deleteScoreForm.reset();
+        });
+      });
+    }
+  });
 
   onSnapshot(ColRef, (snapshot) => {
-
-    let scores = []
+    let scores = [];
     snapshot.docs.forEach((doc) => {
-      scores.push({...doc.data(), id: doc.id})
-    })
-    console.log(scores)
-  })
-    
+      scores.push({ ...doc.data(), id: doc.id });
+    });
+    console.log(scores);
+  });
 
   const register = async () => {
     setRegisterEmail("");
@@ -220,15 +200,14 @@ function App() {
           <button>Add a new score</button>
         </form>
 
-        <form className = 'delete p-2 m-2'>
-          <label htmlFor = "id">Document id:</label>
-          <input type = 'text' name = 'id' required></input>{" "}
+      <div>
+        <form className="delete p-2 m-2">
+          <label htmlFor="id">Document id:</label>
+          <input type="text" name="id" required></input>{" "}
           <button>delete a score</button>
         </form>
-        
       </div>
-     */}
-
+*/}
       {/*what's above the routes will stay the same in all pages*/}
       <Routes>
         <Route path="/" element={<Home />} />
@@ -255,13 +234,7 @@ function App() {
             />
           }
         />
-        <Route 
-          path = "/register"
-          element = {
-            <Register/>
-          }
-          />
-
+        <Route path="/register" element={<Register />} />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>
