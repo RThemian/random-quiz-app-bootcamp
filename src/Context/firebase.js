@@ -1,13 +1,8 @@
 import { initializeApp } from "firebase/app";
-import {getAuth} from 'firebase/auth';
-import { 
-  getFirestore,
-  collection,
-  getDocs,
-} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
 
 //need to replace with environment variables before uploading to github
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyCfhbEcdv7q6k3rSbIUn_it2_yfy3tBAAQ",
@@ -16,8 +11,8 @@ const firebaseConfig = {
   storageBucket: "triviarandomapp.appspot.com",
   messagingSenderId: "560167259113",
   appId: "1:560167259113:web:cce1d8a9608dc11e0b9978",
-  measurementId: "G-S444D9LWLB"
-  };
+  measurementId: "G-S444D9LWLB",
+};
 /*
 const firebaseConfig = {
 
@@ -33,38 +28,30 @@ const firebaseConfig = {
 }
   */
 
-  //console.log(process.env)
-  
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+//console.log(process.env)
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-
-    export const Database = getFirestore();
+export const Database = getFirestore();
 // Initialize Cloud Firestore and get a reference to the service
-  
 
-   //initialize services
-   
-   export const ColRef = collection(Database, 'Scores');
+//initialize services
 
-  
-  //let scores = [];
-   getDocs(ColRef)
-    .then((snapshot) => {
-      console.log(snapshot.docs)
-      let scores = []
-      snapshot.docs.forEach((doc) => {
-        scores.push({...doc.data(), id: doc.id})
-      })
-      console.log(scores)
-    })
-    .catch( error => {
-      console.log(error.message)
-    })
-   
-   
+export const ColRef = collection(Database, "Scores");
 
+//let scores = [];
+getDocs(ColRef)
+  .then((snapshot) => {
+    console.log(snapshot.docs);
+    let scores = [];
+    snapshot.docs.forEach((doc) => {
+      scores.push({ ...doc.data(), id: doc.id });
+    });
+    console.log(scores);
+  })
+  .catch((error) => {
+    console.log(error.message);
+  });
 
-
-  export const auth = getAuth(app);
+export const auth = getAuth(app);

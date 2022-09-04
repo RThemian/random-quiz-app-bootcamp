@@ -47,7 +47,7 @@ const Home = () => {
   }, [user]);
 
   //signOut function is slowing down site for some reason
-  /*
+
   const logout = async () => {
     try {
       await signOut(auth);
@@ -55,7 +55,7 @@ const Home = () => {
       console.log(error.message);
     }
   };
-*/
+
   let navigate = useNavigate();
 
   const handleRegisterEmail = () => {
@@ -87,7 +87,7 @@ const Home = () => {
         <button onClick={login}>Login</button>
 
         <h2> {user?.email}</h2>
-        {user ? <button>Sign out</button> : ""}
+        {user ? <button onClick={logout}>Sign out</button> : ""}
 
         <h3>
           If not registered, click{" "}

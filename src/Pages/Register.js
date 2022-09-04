@@ -1,11 +1,13 @@
 import React, { useState, useContext } from "react";
-import { QuizContext } from "../Context/QuizContext";
+//import { QuizContext } from "../Context/QuizContext";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   getAuth,
 } from "firebase/auth";
 import { auth, ColRef, Database } from "../Context/firebase";
+import useAuth from "../Context/useAuth";
+import { useNavigate } from "react-router-dom";
 
 //enable registration using auth
 
@@ -24,9 +26,12 @@ onAuthStateChanged(auth, (user) => {
 const Register = () => {
   const [registerPassword, setRegisterPassword] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
-  const { user, setUser } = useContext(QuizContext);
+  const { user, setUser } = useAuth();
 
+  let navigate = useNavigate();
   const register = async () => {
+    //need to route to Home page for login after successful register
+
     try {
       const user = await createUserWithEmailAndPassword(
         auth,
@@ -36,6 +41,9 @@ const Register = () => {
       setRegisterEmail("");
       setRegisterPassword("");
       console.log(user);
+
+      let path = "/";
+      navigate(path);
     } catch (error) {
       //invalid email
       console.log(error.message);
@@ -58,9 +66,11 @@ const Register = () => {
         value={registerPassword}
         onChange={(event) => setRegisterPassword(event.target.value)}
       />
-      <button onClick={register}>Create User</button>
 
+      <button onClick={register}>Create User</button>
+      {/*
       {user.email && <h2> New user created: {user.email}</h2>}
+  */}
     </div>
   );
 };
