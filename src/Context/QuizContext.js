@@ -31,8 +31,6 @@ const firebaseConfig = {
   measurementId: "G-S444D9LWLB",
 };
 
-const ADMIN_EMAILS = ["demo@minimals.cc"];
-
 const firebaseApp = initializeApp(firebaseConfig);
 
 const AUTH = getAuth(firebaseApp);
