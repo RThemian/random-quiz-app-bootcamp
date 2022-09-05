@@ -63,6 +63,12 @@ const Home = () => {
     navigate(path);
   };
 
+  //if user exists, then navigate to quiz and start game
+  useEffect(() => {
+    let quizPath = "/quiz";
+    navigate(quizPath);
+  }, [user]);
+
   //link successful login && route to logged in and see scores
 
   return (

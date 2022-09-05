@@ -81,7 +81,7 @@ function App() {
     snapshot.docs.forEach((doc) => {
       scores.push({ ...doc.data(), id: doc.id });
     });
-    console.log(scores);
+    console.log("scores", scores);
   });
 
   const register = async () => {
@@ -143,71 +143,7 @@ function App() {
           </div>
         </ol>
       </nav>
-      {/* 
-      <div>
-        <h3>Register User</h3>
-        <input
-          placeholder="Email..."
-          value={registerEmail}
-          onChange={(event) => setRegisterEmail(event.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password..."
-          value={registerPassword}
-          onChange={(event) => setRegisterPassword(event.target.value)}
-        />
-        <button onClick={register}>Create User</button>
-      </div>
-      <div>
-        <h3>Login</h3>
-        <input
-          placeholder="Email..."
-          value={loginEmail}
-          onChange={(event) => setLoginEmail(event.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password..."
-          value={loginPassword}
-          onChange={(event) => setLoginPassword(event.target.value)}
-        />
-        <button onClick={login}>Login</button>
-      </div>
 
-      {user ? (
-        <div>
-          {" "}
-          <h4>User Logged In:</h4> <button onClick={logout}>Sign Out</button>{" "}
-        </div>
-      ) : (
-        ""
-      )}
-      {user?.email}
-      <div className = 'container m-2 p-2'>
-        <h4>Past Scores</h4>
-        <form className="add">
-          <label htmlFor = 'loginEmail'>User Email</label>{" "}
-          <input className = 'pb-2' type = 'text' name = 'loginEmail' required></input>{" "}
-          <label htmlFor = 'score'>Points Scored</label>{" "}
-          <input className = 'pb-2' type = 'text' name = 'score' required></input>{" "}
-          <label htmlFor = 'pointsPossible'>Points Possible</label>{" "}
-          <input className = 'pb-2' type = 'text' name = 'pointsPossible' required></input>{" "}
-          <label htmlFor = 'dateTime'>Enter date</label>{" "}
-          <input type = 'date' name = 'dateTime' required></input>{" "}
-          <label htmlFor = 'difficulty'>Enter difficulty</label>{" "}
-          <input type = 'text' name = 'difficulty' required></input>{" "}
-          <button>Add a new score</button>
-        </form>
-
-      <div>
-        <form className="delete p-2 m-2">
-          <label htmlFor="id">Document id:</label>
-          <input type="text" name="id" required></input>{" "}
-          <button>delete a score</button>
-        </form>
-      </div>
-*/}
       {/*what's above the routes will stay the same in all pages*/}
       <Routes>
         <Route path="/" element={<Home />} />
