@@ -64,10 +64,13 @@ const Home = () => {
   };
 
   //if user exists, then navigate to quiz and start game
-  useEffect(() => {
+
+  //when logged in button to go to quiz or see old scores now that user is logged in
+
+  function startQuiz() {
     let quizPath = "/quiz";
     navigate(quizPath);
-  }, [user]);
+  }
 
   //link successful login && route to logged in and see scores
 
@@ -93,12 +96,25 @@ const Home = () => {
         <button onClick={login}>Login</button>
 
         <h2> {user?.email}</h2>
-        {user ? <button onClick={logout}>Sign out</button> : ""}
+        {user ? (
+          <>
+            <button onClick={logout}>Sign out</button>{" "}
+            <button onClick={startQuiz}>Start Quiz</button>{" "}
+            <button>See Past Scores</button>
+          </>
+        ) : (
+          ""
+        )}
 
-        <h3>
-          If not registered, click{" "}
-          <button onClick={handleRegisterEmail}>here</button>
-        </h3>
+        {/* REMOVE REGISTER BUTTON when logged in */}
+        {!user ? (
+          <h3>
+            If not registered, click{" "}
+            <button onClick={handleRegisterEmail}>here</button>
+          </h3>
+        ) : (
+          ""
+        )}
       </div>
     </>
   );

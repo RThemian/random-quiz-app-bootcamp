@@ -145,6 +145,7 @@ function App() {
       </nav>
 
       {/*what's above the routes will stay the same in all pages*/}
+
       <Routes>
         <Route path="/" element={<Home />} />
 
@@ -174,16 +175,6 @@ function App() {
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-      <div>
-        <a
-          href="https://www.britannica.com/dictionary/integrity"
-          target="_blank"
-          rel="noreferrer"
-        >
-          {" "}
-          <h6>HEY YOU! Yeah, you! Don't google anything!</h6>
-        </a>
-      </div>
     </Router>
   );
 }

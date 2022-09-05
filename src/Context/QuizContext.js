@@ -57,27 +57,28 @@ AuthProvider.propTypes = {
 
 function AuthProvider({ children }) {
   const [profile, setProfile] = useState(null);
-  const navigation = useNavigate();
+  //const navigation = useNavigate();
 
   useEffect(
     () =>
       onAuthStateChanged(AUTH, async (user) => {
         //need to change "users" to my database collection
-
+        console.log("USER1", user);
         if (user) {
           const userRef = doc(DB, "users", user.uid);
 
           const docSnap = await getDoc(userRef);
 
           if (docSnap.exists()) {
+            console.log("DOCSNAP", docSnap.data());
             setProfile(docSnap.data());
           }
 
-          // setProfile(user);
-          return navigation("/play");
+          setProfile(user);
+          //return navigation("/quiz");
         } else {
           setProfile(null);
-          return navigation("/home");
+          // return navigation("/home");
         }
       }),
     []
@@ -88,7 +89,7 @@ function AuthProvider({ children }) {
 
   //need to add new inputs on the register page to first params
 
-  const register = (email, password, firstName, lastName, otherParams) =>
+  const register = (email, password, firstName, lastName) =>
     createUserWithEmailAndPassword(AUTH, email, password).then(async (res) => {
       const userRef = doc(collection(DB, "users"), res.user?.uid);
       await setDoc(userRef, {
@@ -96,6 +97,9 @@ function AuthProvider({ children }) {
         email,
         displayName: `${firstName} ${lastName}`,
       });
+      //must return true because there's a conditional being used in the register component
+      // that can't be evaluated until true is returned
+      return true;
     });
 
   const logout = () => {

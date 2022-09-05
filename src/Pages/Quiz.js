@@ -1,12 +1,11 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Question from "./Question";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import useSound from 'use-sound';
+import useSound from "use-sound";
 import correctSound from "./../sfx/CorrectSoundRight.wav";
 import incorrectSound from "./../sfx/IncorrectSoundWrong.wav";
-
-
+import useAuth from "../Context/useAuth";
 //put the randomizeArray function outside of the main component to controll its use
 
 function randomizeArray(array) {
@@ -30,13 +29,16 @@ const Quiz = ({
   score = 0,
   setScore,
   pointsPossible = 0,
-  setPointsPossible
+  setPointsPossible,
 }) => {
+  const { user } = useAuth();
+  console.log("USER", user);
   const difficultyLevels = [
     { value: "easy" },
     { value: "medium" },
     { value: "hard" },
   ];
+
   const [diffSelect, setDiffSelect] = useState("easy");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [questions, setQuestions] = useState([]);
@@ -45,15 +47,14 @@ const Quiz = ({
   const [playCorrect] = useSound(correctSound, { volume: 0.5 });
   const [playIncorrect] = useSound(incorrectSound, { volume: 0.5 });
 
-  
-
   const loadQuestions = (e) => {
     e.preventDefault();
     setDiffSelect(document.querySelector("#difficulty").value);
-    console.log("question query selector", document.querySelector("#questionAmount").value)
-  
+    console.log(
+      "question query selector",
+      document.querySelector("#questionAmount").value
+    );
 
-   
     return axios
       .get(
         `https://opentdb.com/api.php?amount=${questionAmount}&difficulty=${diffSelect}&type=multiple`
@@ -88,7 +89,6 @@ const Quiz = ({
         // questions.
         setScore(0);
         setCurrentQuestionIndex(0);
-        
       });
   };
 
@@ -114,14 +114,15 @@ const Quiz = ({
       setCurrentQuestionIndex((previousIndex) => {
         if (previousIndex < questions.length) {
           return previousIndex + 1;
-    
-  }});}}
+        }
+      });
+    }
+  };
 
-// create link to EndScreen with useNavigate
+  // create link to EndScreen with useNavigate
   let navigate = useNavigate();
 
-   const HandleFinishQuiz = () => {
-
+  const HandleFinishQuiz = () => {
     if (
       questions[currentQuestionIndex].selectedAnswer ===
       questions[currentQuestionIndex].correct_answer
@@ -130,18 +131,16 @@ const Quiz = ({
       alert("Correct!");
       //ensures it always passes "score => score + 1"
       setScore((score) => score + 1);
-    }
-    else {
+    } else {
       playIncorrect();
-      alert("Wrong!!")
+      alert("Wrong!!");
     }
-      let path = '/endscreen';
-      navigate(path);
+    let path = "/endscreen";
+    navigate(path);
+  };
 
-   }
-
-//remove handlePreviousQuestion
-/*
+  //remove handlePreviousQuestion
+  /*
   const handlePreviousQuestion = () => {
     setCurrentQuestionIndex((previousIndex) => {
       if (previousIndex > 0) {
@@ -169,52 +168,62 @@ const Quiz = ({
 
   return (
     <>
-
-    <div>
-    {questions.length ===0 && (
-      <div className="container">
-        <h3>QUIZ</h3>
-        <div className="btn btn-4 mb-4">
-          <p className = "text-white">Choose difficulty level</p>
-          <select className = 'form-select' id="difficulty">
-            {difficultyLevels.map((level) => {
-              return (
-                <option
-                  key={Math.random() * difficultyLevels.length}
-                  value={level.value}
-                >
-                  {level.value}
-                </option>
-              );
-            })}
-          </select>
-        </div>
-       
-        <div className="btn btn-4 mb-4">
-          <p className = "text-white">Choose how many questions</p>
-          <select 
-            className = "form-select" 
-            id ="questionAmount"
-            defaultValue="easy"
-            onChange={(e) => setQuestionAmount(e.target.value)}>
-          
-          
-            <option key = {3} value = {3} >3</option>
-            <option key = {5} value = {5} >5</option>
-            <option key = {10} value = {10} >10</option>
-          </select>
-        </div>
-        <br/>
-        <button className = "btn btn-2" onClick={loadQuestions}>Load Questions? </button>
-      </div> ) }
+      <div>
+        <h4>Welcome {user?.displayName}!</h4>
       </div>
-          
+
+      <div>
+        {questions.length === 0 && (
+          <div className="container">
+            <h3>QUIZ</h3>
+            <div className="btn btn-4 mb-4">
+              <p className="text-white">Choose difficulty level</p>
+              <select className="form-select" id="difficulty">
+                {difficultyLevels.map((level) => {
+                  return (
+                    <option
+                      key={Math.random() * difficultyLevels.length}
+                      value={level.value}
+                    >
+                      {level.value}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+
+            <div className="btn btn-4 mb-4">
+              <p className="text-white">Choose how many questions</p>
+              <select
+                className="form-select"
+                id="questionAmount"
+                defaultValue="easy"
+                onChange={(e) => setQuestionAmount(e.target.value)}
+              >
+                <option key={3} value={3}>
+                  3
+                </option>
+                <option key={5} value={5}>
+                  5
+                </option>
+                <option key={10} value={10}>
+                  10
+                </option>
+              </select>
+            </div>
+            <br />
+            <button className="btn btn-2" onClick={loadQuestions}>
+              Load Questions?{" "}
+            </button>
+          </div>
+        )}
+      </div>
 
       <div>
         {questions[currentQuestionIndex] !== undefined && (
           <Question
-            key = {Math.random()*questions.length+1}
-            difficultyLevel = {diffSelect}
+            key={Math.random() * questions.length + 1}
+            difficultyLevel={diffSelect}
             question={questions[currentQuestionIndex].question}
             answers={questions[currentQuestionIndex].answers}
             selectedAnswer={questions[currentQuestionIndex].selectedAnswer}
@@ -235,7 +244,8 @@ const Quiz = ({
         </button>
         */}
         {/* next question button */}
-        <button className = "btn btn-3"
+        <button
+          className="btn btn-3"
           disabled={
             // must select an answer to continue
             (questions[currentQuestionIndex] &&
@@ -251,8 +261,8 @@ const Quiz = ({
         </button>
         {/* TODO: finish quiz button */}
         <button
-          className = "btn btn-3 m-2"
-          onClick = {HandleFinishQuiz}
+          className="btn btn-3 m-2"
+          onClick={HandleFinishQuiz}
           disabled={
             // only show finish button if we are on last question
             currentQuestionIndex + 1 !== questions.length ||
