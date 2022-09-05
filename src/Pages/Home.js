@@ -21,8 +21,6 @@ const Home = () => {
   const [user, setUser] = useState({});
 
   const login = async () => {
-    setLoginEmail("");
-    setLoginPassword("");
     try {
       const user = await signInWithEmailAndPassword(
         auth,
@@ -30,6 +28,8 @@ const Home = () => {
         loginPassword
       );
       console.log(user);
+      setLoginEmail("");
+      setLoginPassword("");
     } catch (error) {
       //invalid email
       console.log(error.message);
@@ -59,8 +59,7 @@ const Home = () => {
   let navigate = useNavigate();
 
   const handleRegisterEmail = () => {
-    let path = "/register";
-    navigate(path);
+    navigate("/register");
   };
 
   //if user exists, then navigate to quiz and start game
@@ -68,8 +67,7 @@ const Home = () => {
   //when logged in button to go to quiz or see old scores now that user is logged in
 
   function startQuiz() {
-    let quizPath = "/quiz";
-    navigate(quizPath);
+    navigate("/quiz");
   }
 
   //link successful login && route to logged in and see scores
@@ -95,7 +93,10 @@ const Home = () => {
         />
         <button onClick={login}>Login</button>
 
-        <h2> {user?.email}</h2>
+        <h2>
+          {" "}
+          Welcome {user?.displayName} {user?.email}
+        </h2>
         {user ? (
           <>
             <button onClick={logout}>Sign out</button>{" "}

@@ -56,7 +56,10 @@ AuthProvider.propTypes = {
 };
 
 function AuthProvider({ children }) {
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState({
+    email: "",
+    displayName: "",
+  });
   //const navigation = useNavigate();
 
   useEffect(
@@ -70,11 +73,19 @@ function AuthProvider({ children }) {
           const docSnap = await getDoc(userRef);
 
           if (docSnap.exists()) {
-            console.log("DOCSNAP", docSnap.data());
-            setProfile(docSnap.data());
+            console.log(
+              "DOCSNAP",
+              docSnap.data().email,
+              docSnap.data().displayName
+            );
+            setProfile({
+              email: docSnap.data().email,
+              displayName: docSnap.data().displayName,
+            });
+            console.log("PROFILE", profile);
           }
 
-          setProfile(user);
+          // setProfile(user);
           //return navigation("/quiz");
         } else {
           setProfile(null);
@@ -94,7 +105,7 @@ function AuthProvider({ children }) {
       const userRef = doc(collection(DB, "users"), res.user?.uid);
       await setDoc(userRef, {
         uid: res.user?.uid,
-        email,
+        email: email,
         displayName: `${firstName} ${lastName}`,
       });
       //must return true because there's a conditional being used in the register component

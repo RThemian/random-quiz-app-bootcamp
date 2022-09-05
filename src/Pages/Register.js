@@ -10,7 +10,7 @@ import useAuth from "../Context/useAuth";
 import { useNavigate } from "react-router-dom";
 
 //enable registration using auth
-
+/*
 onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
@@ -22,7 +22,7 @@ onAuthStateChanged(auth, (user) => {
     // ...
   }
 });
-
+*/
 const Register = () => {
   const [registerPassword, setRegisterPassword] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");

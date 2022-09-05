@@ -31,8 +31,9 @@ const Quiz = ({
   pointsPossible = 0,
   setPointsPossible,
 }) => {
-  const { user } = useAuth();
-  console.log("USER", user);
+  const { user, profile } = useAuth();
+
+  console.log("USER in QUIZ", user.displayName);
   const difficultyLevels = [
     { value: "easy" },
     { value: "medium" },
@@ -169,7 +170,7 @@ const Quiz = ({
   return (
     <>
       <div>
-        <h4>Welcome {user?.displayName}!</h4>
+        <h4>Let's see what you know, {user?.displayName}!</h4>
       </div>
 
       <div>
@@ -231,19 +232,8 @@ const Quiz = ({
           />
         )}
       </div>
-      {/*
-        PREVIOUS QUESTION, NEXT QUESTION, and FINISH QUIZ buttons
-      */}
+
       <div>
-        {/* previous question button 
-        <button
-          disabled={questions.length === 0 || currentQuestionIndex === 0}
-          onClick={handlePreviousQuestion}
-        >
-          Previous Question
-        </button>
-        */}
-        {/* next question button */}
         <button
           className="btn btn-3"
           disabled={

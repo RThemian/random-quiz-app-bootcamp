@@ -31,6 +31,7 @@ function App() {
 
   const [oldScores, setOldScores] = useState([]);
 
+  /*
   useEffect(() => {
     try {
       onAuthStateChanged(auth, (currentUser) => {
@@ -124,6 +125,7 @@ function App() {
       console.log(error.message);
     }
   };
+  */
 
   return (
     <Router>
