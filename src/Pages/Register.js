@@ -1,28 +1,9 @@
-import React, { useState, useContext } from "react";
-//import { QuizContext } from "../Context/QuizContext";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  getAuth,
-} from "firebase/auth";
-import { auth, ColRef, Database } from "../Context/firebase";
-import useAuth from "../Context/useAuth";
+import React, { useState } from "react";
+import { useAuth } from "../Context/Authentication";
 import { useNavigate } from "react-router-dom";
 
 //enable registration using auth
-/*
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    const uid = user.uid;
-    // ...
-  } else {
-    // User is signed out
-    // ...
-  }
-});
-*/
+
 const Register = () => {
   const [registerPassword, setRegisterPassword] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");

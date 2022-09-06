@@ -1,33 +1,23 @@
-import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  useNavigate,
-} from "react-router-dom";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth, ColRef, Database } from "../Context/firebase";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signOut, signInWithEmailAndPassword } from "firebase/auth";
+import { AUTH } from "../Context/Firebase";
 
-const Home = () => {
+const Home = ({ user, setUser }) => {
   const [loginEmail, setLoginEmail] = useState("");
-
   const [loginPassword, setLoginPassword] = useState("");
-  const [user, setUser] = useState({});
 
   const login = async () => {
     try {
-      const user = await signInWithEmailAndPassword(
-        auth,
+      const loggedInUser = await signInWithEmailAndPassword(
+        AUTH,
         loginEmail,
         loginPassword
       );
-      console.log(user);
+      console.log("loginEmail: ", loginEmail);
+      console.log("loginPassword: ", loginPassword);
+      console.log("FUCKING LOOOK AT ITTTTTTT vvvvv");
+      console.log("loggedInUser.user:", loggedInUser.user);
       setLoginEmail("");
       setLoginPassword("");
     } catch (error) {
@@ -36,21 +26,9 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    try {
-      onAuthStateChanged(auth, (currentUser) => {
-        setUser(currentUser);
-      });
-    } catch (error) {
-      console.log(error.message);
-    }
-  }, [user]);
-
-  //signOut function is slowing down site for some reason
-
   const logout = async () => {
     try {
-      await signOut(auth);
+      await signOut(AUTH);
     } catch (error) {
       console.log(error.message);
     }
@@ -80,19 +58,20 @@ const Home = () => {
       </div>
       <div>
         <h3>Login</h3>
-        <input
-          placeholder="Email..."
-          value={loginEmail}
-          onChange={(event) => setLoginEmail(event.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password..."
-          value={loginPassword}
-          onChange={(event) => setLoginPassword(event.target.value)}
-        />
-        <button onClick={login}>Login</button>
-
+        <form>
+          <input
+            placeholder="Email..."
+            value={loginEmail}
+            onChange={(event) => setLoginEmail(event.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password..."
+            value={loginPassword}
+            onChange={(event) => setLoginPassword(event.target.value)}
+          />
+          <button onClick={login}>Login</button>
+        </form>
         <h2>
           {" "}
           Welcome {user?.displayName} {user?.email}

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../Context/useAuth";
+import { useAuth } from "../Context/Authentication";
+import { saveNewScore } from "../Context/Scores";
 
 const EndScreen = ({ score, setScore, pointsPossible, setPointsPossible }) => {
   const { user } = useAuth();
@@ -14,6 +15,11 @@ const EndScreen = ({ score, setScore, pointsPossible, setPointsPossible }) => {
     let path = "/";
     navigate(path);
   };
+
+  // score
+  // user (email)
+  // difficulty
+  // dateTime memory.js
   return (
     <>
       <div>
@@ -26,7 +32,9 @@ const EndScreen = ({ score, setScore, pointsPossible, setPointsPossible }) => {
       <button className="btn btn-1" onClick={handleHomeClick}>
         Home
       </button>{" "}
-      <button className="btn btn-3">Save Score</button>
+      <button className="btn btn-3" onClick={saveNewScore}>
+        Save Score
+      </button>
     </>
   );
 };

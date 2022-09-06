@@ -1,43 +1,14 @@
+import { useContext } from "react";
 import PropTypes from "prop-types";
-import { createContext, useEffect, useReducer, useState } from "react";
-import { initializeApp } from "firebase/app";
+import { createContext, useEffect, useState } from "react";
 import {
-  getAuth,
   signOut,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import {
-  getFirestore,
-  collection,
-  doc,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
-import { getStorage } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
-//import { FIREBASE_API } from "../config";
-
-// ----------------------------------------------------------------------
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCfhbEcdv7q6k3rSbIUn_it2_yfy3tBAAQ",
-  authDomain: "triviarandomapp.firebaseapp.com",
-  projectId: "triviarandomapp",
-  storageBucket: "triviarandomapp.appspot.com",
-  messagingSenderId: "560167259113",
-  appId: "1:560167259113:web:cce1d8a9608dc11e0b9978",
-  measurementId: "G-S444D9LWLB",
-};
-
-const firebaseApp = initializeApp(firebaseConfig);
-
-const AUTH = getAuth(firebaseApp);
-
-const DB = getFirestore(firebaseApp);
-
-const storage = getStorage(firebaseApp);
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { DB, AUTH } from "./Firebase";
 
 // with the 3 functions login, register, logout we use use AuthContext
 const AuthContext = createContext({
@@ -55,12 +26,19 @@ AuthProvider.propTypes = {
   children: PropTypes.node,
 };
 
+const useAuth = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) throw new Error("Auth context must be use inside AuthProvider");
+
+  return context;
+};
+
 function AuthProvider({ children }) {
   const [profile, setProfile] = useState({
     email: "",
     displayName: "",
   });
-  //const navigation = useNavigate();
 
   useEffect(
     () =>
@@ -136,4 +114,4 @@ function AuthProvider({ children }) {
   );
 }
 
-export { AuthContext, AuthProvider, DB, storage, AUTH };
+export { AuthContext, AuthProvider, AUTH, useAuth };

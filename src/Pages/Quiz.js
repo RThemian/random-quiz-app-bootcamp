@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import useSound from "use-sound";
 import correctSound from "./../sfx/CorrectSoundRight.wav";
 import incorrectSound from "./../sfx/IncorrectSoundWrong.wav";
-import useAuth from "../Context/useAuth";
+import { useAuth } from "../Context/Authentication";
 //put the randomizeArray function outside of the main component to controll its use
 
 function randomizeArray(array) {
@@ -31,7 +31,7 @@ const Quiz = ({
   pointsPossible = 0,
   setPointsPossible,
 }) => {
-  const { user, profile } = useAuth();
+  const { user } = useAuth();
 
   console.log("USER in QUIZ", user.displayName);
   const difficultyLevels = [
@@ -123,7 +123,7 @@ const Quiz = ({
   // create link to EndScreen with useNavigate
   let navigate = useNavigate();
 
-  const HandleFinishQuiz = () => {
+  const handleFinishQuiz = () => {
     if (
       questions[currentQuestionIndex].selectedAnswer ===
       questions[currentQuestionIndex].correct_answer
@@ -252,7 +252,7 @@ const Quiz = ({
         {/* TODO: finish quiz button */}
         <button
           className="btn btn-3 m-2"
-          onClick={HandleFinishQuiz}
+          onClick={handleFinishQuiz}
           disabled={
             // only show finish button if we are on last question
             currentQuestionIndex + 1 !== questions.length ||
