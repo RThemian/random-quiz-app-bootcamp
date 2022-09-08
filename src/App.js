@@ -23,20 +23,6 @@ function App() {
     display_name: "",
   });
 
-  // This should move to a child component
-  const addNewScore = () => {
-    console.log("adding new score...");
-    const newScore = {
-      // user:
-      // score:
-      // points_possible:
-      // date:
-    };
-    return saveNewScore(newScore).then((savedScore) => {
-      setScore(savedScore);
-    });
-  };
-
   return (
     <Router>
       <nav className="nav flex-center">
@@ -69,7 +55,7 @@ function App() {
               setScore={setScore}
               pointsPossible={pointsPossible}
               setPointsPossible={setPointsPossible}
-              addNewScore={addNewScore()}
+              //addNewScore={addNewScore()}
             />
           }
         />

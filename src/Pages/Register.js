@@ -52,33 +52,35 @@ const Register = () => {
       <h1>Register YOUR EMAIL</h1>
 
       <h3>Register User</h3>
-      <input
-        placeholder="Email..."
-        value={registerEmail}
-        onChange={(event) => setRegisterEmail(event.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password..."
-        value={registerPassword}
-        onChange={(event) => setRegisterPassword(event.target.value)}
-      />
-      <div>
+      <form onSubmit={handleRegister}>
         <input
-          placeholder="First Name"
-          type="text"
-          value={firstName}
-          onChange={(event) => setFirstName(event.target.value)}
+          placeholder="Email..."
+          value={registerEmail}
+          onChange={(event) => setRegisterEmail(event.target.value)}
         />
         <input
-          type="text"
-          placeholder="Last Name"
-          value={lastName}
-          onChange={(event) => setLastName(event.target.value)}
+          type="password"
+          placeholder="Password..."
+          value={registerPassword}
+          onChange={(event) => setRegisterPassword(event.target.value)}
         />
-      </div>
+        <div>
+          <input
+            placeholder="First Name"
+            type="text"
+            value={firstName}
+            onChange={(event) => setFirstName(event.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(event) => setLastName(event.target.value)}
+          />
+        </div>
 
-      <button onClick={handleRegister}>Create User</button>
+        <button onClick={handleRegister}>Create User</button>
+      </form>
       {/*
       {user.email && <h2> New user created: {user.email}</h2>}
   */}

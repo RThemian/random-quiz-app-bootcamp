@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signOut, signInWithEmailAndPassword } from "firebase/auth";
 import { AUTH } from "../Context/Firebase";
+import { useAuth } from "../Context/Authentication";
 
-const Home = ({ user, setUser }) => {
+const Home = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const { user } = useAuth();
 
   const login = async () => {
     try {
@@ -24,6 +26,10 @@ const Home = ({ user, setUser }) => {
       //invalid email
       console.log(error.message);
     }
+  };
+
+  const handleLogin = async () => {
+    const response = await login(AUTH, loginEmail, loginPassword);
   };
 
   const logout = async () => {
@@ -70,7 +76,7 @@ const Home = ({ user, setUser }) => {
             value={loginPassword}
             onChange={(event) => setLoginPassword(event.target.value)}
           />
-          <button onClick={login}>Login</button>
+          <button onClick={handleLogin}>Login</button>
         </form>
         <h2>
           {" "}
@@ -87,7 +93,7 @@ const Home = ({ user, setUser }) => {
         )}
 
         {/* REMOVE REGISTER BUTTON when logged in */}
-        {!user ? (
+        {user !== null ? (
           <h3>
             If not registered, click{" "}
             <button onClick={handleRegisterEmail}>here</button>

@@ -24,3 +24,17 @@ export async function saveNewScore(score) {
   //   console.log("Document written with ID: ", docRef.id);
   //   return docRef (or the actual document);
 }
+
+// This should move to a child component
+export async function addNewScore() {
+  console.log("adding new score...");
+  const newScore = {
+    // user:
+    // score:
+    // points_possible:
+    // date:
+  };
+  return null;
+  // return saveNewScore(newScore).then((savedScore) => {
+  //   setScore(savedScore);
+}

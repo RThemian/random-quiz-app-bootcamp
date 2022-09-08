@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { DB, AUTH } from "./Firebase";
+import { async } from "@firebase/util";
 
 // with the 3 functions login, register, logout we use use AuthContext
 const AuthContext = createContext({
@@ -51,15 +52,16 @@ function AuthProvider({ children }) {
           const docSnap = await getDoc(userRef);
 
           if (docSnap.exists()) {
+            setProfile({
+              email: docSnap.data().email,
+              displayName: docSnap.data().displayName,
+            });
             console.log(
               "DOCSNAP",
               docSnap.data().email,
               docSnap.data().displayName
             );
-            setProfile({
-              email: docSnap.data().email,
-              displayName: docSnap.data().displayName,
-            });
+
             console.log("PROFILE", profile);
           }
 
@@ -72,10 +74,37 @@ function AuthProvider({ children }) {
       }),
     []
   );
+  /*
+   async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      console.log(user);
+      setLoginEmail("");
+      setLoginPassword("");
+    } catch (error) {
+      //invalid email
+      console.log(error.message);
+    }
+  };
+  */
 
-  const login = (email, password) =>
-    signInWithEmailAndPassword(AUTH, email, password);
-
+  const login = (email, password) => {
+    console.log("login ATTEMPTED");
+    signInWithEmailAndPassword(AUTH, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  };
   //need to add new inputs on the register page to first params
 
   const register = (email, password, firstName, lastName) =>
