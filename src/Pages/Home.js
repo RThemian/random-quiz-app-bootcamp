@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signOut, signInWithEmailAndPassword } from "firebase/auth";
-import { AUTH } from "../Context/Firebase";
+import { AUTH } from "../Context/firebase";
 import { useAuth } from "../Context/Authentication";
 
 const Home = () => {
@@ -9,7 +9,7 @@ const Home = () => {
   const [loginPassword, setLoginPassword] = useState("");
   const { user } = useAuth();
 
-  const login = async () => {
+  const login = async (AUTH, loginEmail, loginPassword) => {
     try {
       const loggedInUser = await signInWithEmailAndPassword(
         AUTH,
@@ -28,8 +28,13 @@ const Home = () => {
     }
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (AUTH, loginEmail, loginPassword) => {
+    navigate("/quiz");
     const response = await login(AUTH, loginEmail, loginPassword);
+    console.log("response", response);
+    if (response) {
+      navigate("/quiz");
+    }
   };
 
   const logout = async () => {
@@ -64,7 +69,7 @@ const Home = () => {
       </div>
       <div>
         <h3>Login</h3>
-        <form>
+        <form onSubmit={handleLogin}>
           <input
             placeholder="Email..."
             value={loginEmail}

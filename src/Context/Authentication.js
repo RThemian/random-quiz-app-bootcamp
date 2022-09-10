@@ -8,8 +8,8 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
-import { DB, AUTH } from "./Firebase";
-import { async } from "@firebase/util";
+import { DB, AUTH } from "./firebase";
+//import { async } from "@firebase/util";
 
 // with the 3 functions login, register, logout we use use AuthContext
 const AuthContext = createContext({
@@ -41,39 +41,35 @@ function AuthProvider({ children }) {
     displayName: "",
   });
 
-  useEffect(
-    () =>
-      onAuthStateChanged(AUTH, async (user) => {
-        //need to change "users" to my database collection
-        console.log("USER1", user);
-        if (user) {
-          const userRef = doc(DB, "users", user.uid);
+  onAuthStateChanged(AUTH, async (user) => {
+    //need to change "users" to my database collection
+    console.log("USER1", user);
+    if (user) {
+      const userRef = doc(DB, "users", user.uid);
 
-          const docSnap = await getDoc(userRef);
+      const docSnap = await getDoc(userRef);
 
-          if (docSnap.exists()) {
-            setProfile({
-              email: docSnap.data().email,
-              displayName: docSnap.data().displayName,
-            });
-            console.log(
-              "DOCSNAP",
-              docSnap.data().email,
-              docSnap.data().displayName
-            );
+      if (docSnap.exists()) {
+        setProfile({
+          email: docSnap.data().email.toString(),
+          displayName: docSnap.data().displayName.toString(),
+        });
+        console.log(
+          "DOCSNAP",
+          docSnap.data().email,
+          docSnap.data().displayName
+        );
 
-            console.log("PROFILE", profile);
-          }
+        console.log("PROFILE", profile);
+      }
 
-          // setProfile(user);
-          //return navigation("/quiz");
-        } else {
-          setProfile(null);
-          // return navigation("/home");
-        }
-      }),
-    []
-  );
+      // setProfile(user);
+      //return navigation("/quiz");
+    } else {
+      setProfile(null);
+      // return navigation("/home");
+    }
+  });
   /*
    async () => {
     try {
@@ -92,12 +88,12 @@ function AuthProvider({ children }) {
   };
   */
 
-  const login = (email, password) => {
-    console.log("login ATTEMPTED");
+  const login = (AUTH, email, password) => {
     signInWithEmailAndPassword(AUTH, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
+        console.log(user);
         // ...
       })
       .catch((error) => {
