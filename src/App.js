@@ -1,13 +1,14 @@
 import "./App.scss";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./Pages/Home";
-import Register from "./Pages/Register";
+import Signup from "./Pages/Signup";
 
 import React, { useState } from "react";
 import Quiz from "./Pages/Quiz";
 import EndScreen from "./Pages/EndScreen";
 import ErrorPage from "./Pages/ErrorPage";
 import { saveNewScore } from "./Context/Scores";
+import Login from "./Pages/Login";
 
 function App() {
   // this should probably move to a parent component for quiz (i.e. parent_components/Quiz.js)
@@ -45,7 +46,7 @@ function App() {
       {/*what's above the routes will stay the same in all pages*/}
 
       <Routes>
-        <Route path="/" element={<Home user={user} setUser={setUser} />} />
+        <Route path="/" element={<Login user={user} setUser={setUser} />} />
 
         <Route
           path="/quiz"
