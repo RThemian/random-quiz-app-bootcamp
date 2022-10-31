@@ -7,6 +7,88 @@ $off-red: #FF6150;
 
 div {
   font: 100% $font-stack;
-  color: $dark-blue;
-  background-color: $gold-yellow;
+  color: $gold-yellow ;
+  background-color: $dark-blue;
+  padding: 10px;
+  text-align: center;
+  font-weight: bold;
+ font-size: 1rem;
+ font-weight: 800;
 }
+
+@import url(https://fonts.googleapis.com/css?family=Poiret+One);
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap');
+
+@mixin button-bg($bg) {
+  background: $bg;
+  &:hover {
+    background:darken($bg,8%);
+    transition: all 0.3s ease;
+  }
+  &:active {
+    background:darken($bg,25%);
+  } 
+}
+
+.btn {
+ color: whitesmoke;
+ font-size: 0.75rem;
+ font-weight: 800;
+ text-decoration:none;
+ padding:5px 10px;
+ border-radius:3px;
+ font-family: 'Poiret One', cursive;
+ font-size:2em;
+ display: flexbox;
+ 
+}
+
+.btn-1 {
+   @include button-bg($bronze-orange);
+}
+.btn-2 {
+  @include button-bg($off-red);
+}
+.btn-3 {
+  @include button-bg($light-blue);
+}
+
+.btn-4 {
+  @mixin button-bg($bg) {
+    background: $bg;
+    &:hover {
+      background:lighten($bg,80%);
+      transition: all 0.3s ease;
+    }
+    &:active {
+      background:lighten($bg,55%);
+    } 
+  }
+}
+
+select, p {
+  font-family: 'Space-Mono';
+  font-size: 1rem;
+}
+
+a {
+  color: $gold-yellow;
+}
+
+a:hover {
+  color: $off-red;
+}
+
+/*Other Stylez*/
+.wrap {
+  margin:0 auto;
+  width:400px;
+  height: fit-content;
+  text-align:center;
+}
+
+h1 {
+  font-family: 'Space-Mono';
+  font-size:4em;
+}
+
